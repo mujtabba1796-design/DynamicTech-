@@ -1,0 +1,3318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Tech · Modern CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* ===== CSS VARIABLES & RESET ===== */
+        :root {
+            --primary: #E63946;
+            --primary-dark: #c62835;
+            --primary-light: #fce8ea;
+            --primary-gradient: linear-gradient(135deg, #E63946, #c62835);
+            --white: #ffffff;
+            --dark: #1e1e2a;
+            --black: #0d0d1a;
+            --gray-50: #fafbfc;
+            --gray-100: #f0f2f5;
+            --gray-200: #e2e6ec;
+            --gray-300: #c9cfd8;
+            --gray-400: #9aa0ac;
+            --gray-500: #6a6a7a;
+            --gray-600: #4a4a5a;
+            --gray-700: #2d2d3f;
+            --text: #1e1e2a;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.10);
+            --shadow-xl: 0 24px 72px rgba(0, 0, 0, 0.14);
+            --radius-sm: 8px;
+            --radius: 16px;
+            --radius-lg: 24px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 260px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-50);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .btn:hover::after {
+            opacity: 1;
+        }
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(230, 57, 70, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(230, 57, 70, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .btn-sm {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: var(--white);
+        }
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: #28a745;
+            color: var(--white);
+        }
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--black);
+        }
+        .logo .mark {
+            background: var(--primary-gradient);
+            color: var(--white);
+            padding: 0.2rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 1.2rem;
+        }
+        .logo span {
+            color: var(--primary);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: var(--transition);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-links .btn {
+            padding: 0.4rem 1.4rem;
+            font-size: 0.85rem;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 0.3rem;
+            border: none;
+            background: none;
+        }
+        .hamburger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--black);
+            border-radius: 4px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(145deg, var(--black) 0%, var(--dark) 100%);
+            color: var(--white);
+            padding: 5rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: 3.4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.2rem;
+        }
+        .hero-content h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* ===== SLIDESHOW ===== */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: var(--radius);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .slides-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: var(--dark);
+        }
+        .slide-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide-item.active {
+            opacity: 1;
+        }
+        .slide-item .slide-content {
+            text-align: center;
+            color: var(--white);
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--radius);
+            backdrop-filter: blur(4px);
+            max-width: 90%;
+        }
+        .slide-item .slide-content h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .slide-item .slide-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .slide-item .slide-content a {
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+        .slideshow-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        .slideshow-dots .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0;
+        }
+        .slideshow-dots .dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+        .slideshow-dots .dot:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .slideshow-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .slideshow-arrow:hover {
+            background: var(--primary);
+        }
+        .slideshow-arrow.prev {
+            left: 10px;
+        }
+        .slideshow-arrow.next {
+            right: 10px;
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 5rem 0;
+        }
+        .section-light {
+            background: var(--white);
+        }
+        .section-gray {
+            background: var(--gray-50);
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .section-title .tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .section-title h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--black);
+        }
+        .section-title h2 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-title p {
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0.5rem auto 0;
+            font-size: 1.05rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-text h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .about-text p {
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .about-stats .stat {
+            text-align: center;
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+        }
+        .about-stats .stat .number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .about-stats .stat .label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        .about-image {
+            background: var(--gray-200);
+            border-radius: var(--radius-lg);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--gray-400);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e63946" opacity="0.08"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>');
+            background-size: 60%;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-image::after {
+            content: 'Dynamic Tech';
+            font-size: 1.2rem;
+            color: var(--gray-500);
+            position: absolute;
+            bottom: 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.3rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem 1.8rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+        .service-card .icon {
+            font-size: 2.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .service-card p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+        .service-card .features {
+            margin-top: 1rem;
+        }
+        .service-card .features li {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            padding: 0.2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .service-card .features li::before {
+            content: '▹';
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .service-card .service-image {
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            margin-top: 0.8rem;
+            background: var(--gray-100);
+        }
+        .service-card .order-btn {
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+        .why-item {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        .why-item:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+        .why-item .icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+        .why-item h4 {
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .why-item p {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .testimonial-card .quote {
+            font-style: italic;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .testimonial-card .author .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .testimonial-card .author .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .testimonial-card .author .role {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .crm-preview {
+            background: var(--black);
+            color: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .crm-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(230, 57, 70, 0.12), transparent 70%);
+            border-radius: 50%;
+        }
+        .crm-preview .crm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .crm-preview .crm-header h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        .crm-preview .crm-header h3 span {
+            color: var(--primary);
+        }
+        .crm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .crm-module {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+            text-align: center;
+        }
+        .crm-module:hover {
+            background: rgba(255, 255, 255, 0.10);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+        .crm-module .icon {
+            font-size: 1.8rem;
+        }
+        .crm-module h5 {
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .contact-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .contact-info p {
+            color: var(--gray-600);
+            margin-bottom: 1.8rem;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .contact-detail .icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        .contact-detail .text {
+            font-weight: 500;
+        }
+        .contact-detail .text small {
+            display: block;
+            font-weight: 400;
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+        .contact-detail .text a {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        .contact-detail .text a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        .contact-form {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .contact-form .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .contact-form label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            color: var(--gray-700);
+        }
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--gray-50);
+        }
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
+        }
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.8rem;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+        .faq-item.active {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        .faq-question {
+            padding: 1.2rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            font-size: 1rem;
+            background: var(--white);
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+        .faq-question:hover {
+            background: var(--gray-50);
+        }
+        .faq-question .arrow {
+            transition: var(--transition);
+            font-size: 1.2rem;
+            color: var(--gray-400);
+        }
+        .faq-item.active .faq-question .arrow {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+        .faq-answer {
+            padding: 0 1.8rem 1.2rem;
+            color: var(--gray-600);
+            display: none;
+        }
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--black);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 4rem 0 1.5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .footer-brand .logo {
+            color: var(--white);
+            margin-bottom: 0.8rem;
+        }
+        .footer-brand p {
+            font-size: 0.9rem;
+            max-width: 300px;
+        }
+        .footer-col h4 {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .footer-col a {
+            display: block;
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .footer-social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            border: 1px solid transparent;
+        }
+        .footer-social a:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1.5rem;
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .footer-bottom .contact-info {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-bottom .contact-info a {
+            color: rgba(255, 255, 255, 0.6);
+            transition: var(--transition);
+        }
+        .footer-bottom .contact-info a:hover {
+            color: var(--primary);
+        }
+
+        /* ===== OVERLAYS & MODALS ===== */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .overlay.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.97) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: var(--shadow-xl);
+        }
+        .modal-wide {
+            max-width: 860px;
+        }
+        .modal .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: var(--transition);
+            line-height: 1;
+        }
+        .modal .close-btn:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+        .modal h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+        .modal h2 span {
+            color: var(--primary);
+        }
+        .modal .subtitle {
+            color: var(--gray-500);
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+        }
+        .modal .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .modal .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            color: var(--gray-700);
+        }
+        .modal .form-group input,
+        .modal .form-group select,
+        .modal .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: var(--gray-50);
+        }
+        .modal .form-group input:focus,
+        .modal .form-group select:focus,
+        .modal .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
+        }
+        .modal .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .modal .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .modal .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+        .modal .switch-link {
+            text-align: center;
+            margin-top: 1.2rem;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+        .modal .switch-link a {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal .switch-link a:hover {
+            text-decoration: underline;
+        }
+        .modal .error-msg {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        .modal .error-msg.show {
+            display: block;
+        }
+
+        /* ===== IMAGE UPLOAD ===== */
+        .image-upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--gray-50);
+            position: relative;
+        }
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .image-upload-area.dragover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        .image-upload-area .placeholder {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+        .image-upload-area .placeholder .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .image-upload-area input[type="file"] {
+            display: none;
+        }
+        .image-upload-area .preview-img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: var(--radius-sm);
+            margin-top: 0.5rem;
+        }
+        .image-upload-area .remove-img-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-upload-area .remove-img-btn:hover {
+            background: var(--primary);
+        }
+        .image-upload-area .remove-img-btn.show {
+            display: flex;
+        }
+
+        /* ===== ADMIN DASHBOARD ===== */
+        .admin-dashboard {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gray-50);
+            z-index: 3000;
+            overflow: hidden;
+        }
+        .admin-dashboard.active {
+            display: flex;
+        }
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 2rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            flex-shrink: 0;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02);
+        }
+        .admin-sidebar .logo {
+            color: var(--black);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+        .admin-sidebar .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.7rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--gray-600);
+            margin-bottom: 0.2rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .admin-sidebar .nav-item:hover {
+            background: var(--gray-100);
+            color: var(--black);
+        }
+        .admin-sidebar .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .admin-sidebar .nav-item .icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        .admin-sidebar .nav-divider {
+            border-top: 1px solid var(--gray-200);
+            margin: 1rem 0;
+        }
+        .admin-sidebar .logout-btn {
+            margin-top: auto;
+            color: var(--gray-500);
+            border: 1px solid var(--gray-200);
+            background: transparent;
+            padding: 0.7rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .admin-sidebar .logout-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .admin-main {
+            flex: 1;
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+            height: 100%;
+            background: var(--gray-50);
+        }
+        .admin-main .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .admin-main .page-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .admin-main .page-header h2 span {
+            color: var(--primary);
+        }
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .admin-stat {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+        }
+        .admin-stat:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .admin-stat .number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .admin-stat .label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-top: 0.2rem;
+        }
+        .admin-table-wrap {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            border: 1px solid var(--gray-200);
+        }
+        .admin-table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .admin-table-wrap th {
+            text-align: left;
+            padding: 0.8rem 0.5rem;
+            border-bottom: 2px solid var(--gray-200);
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .admin-table-wrap td {
+            padding: 0.8rem 0.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: middle;
+        }
+        .admin-table-wrap tr:last-child td {
+            border-bottom: none;
+        }
+        .admin-table-wrap tr:hover td {
+            background: var(--gray-50);
+        }
+        .admin-table-wrap .actions {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .admin-table-wrap .actions .btn {
+            padding: 0.2rem 0.8rem;
+            font-size: 0.75rem;
+        }
+        .admin-table-wrap .status-badge {
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            text-transform: capitalize;
+        }
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-badge.in-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-badge.cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-badge.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .img-preview-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            background: var(--gray-200);
+        }
+        .admin-toolbar {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+            align-items: center;
+        }
+        .admin-toolbar .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: var(--white);
+            transition: var(--transition);
+        }
+        .admin-toolbar .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
+        }
+        .admin-toolbar select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            background: var(--white);
+            transition: var(--transition);
+        }
+        .admin-toolbar select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
+        }
+
+        /* ===== TOAST & SCROLL TOP ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-xl);
+            z-index: 9999;
+            display: none;
+            animation: slideUp 0.4s ease;
+            max-width: 400px;
+            font-weight: 500;
+        }
+        .toast.show {
+            display: block;
+        }
+        .toast.success {
+            border-left: 4px solid #28a745;
+        }
+        .toast.error {
+            border-left: 4px solid #dc3545;
+        }
+        .toast.info {
+            border-left: 4px solid var(--primary);
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: var(--primary-gradient);
+            color: var(--white);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            border: none;
+            z-index: 500;
+        }
+        .scroll-top.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .scroll-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 32px rgba(230, 57, 70, 0.4);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width:1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .slideshow-container {
+                max-width: 100%;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .contact-wrap {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .admin-dashboard {
+                flex-direction: column;
+            }
+            .admin-sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 0.8rem 1.2rem;
+                gap: 0.3rem;
+                align-items: center;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+            }
+            .admin-sidebar .logo {
+                margin-bottom: 0;
+                margin-right: 1.5rem;
+                font-size: 1rem;
+            }
+            .admin-sidebar .nav-item {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+                width: auto;
+            }
+            .admin-sidebar .logout-btn {
+                margin-top: 0;
+                margin-left: auto;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            .admin-main {
+                padding: 1.2rem;
+            }
+        }
+        @media (max-width:768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--white);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                padding: 1.5rem;
+                gap: 1rem;
+                box-shadow: var(--shadow-lg);
+                border-radius: 0 0 var(--radius) var(--radius);
+                border-top: 1px solid var(--gray-200);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .hero-content h1 {
+                font-size: 2.4rem;
+            }
+            .slideshow-container {
+                max-width: 100%;
+            }
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            .crm-preview {
+                padding: 1.5rem;
+            }
+            .contact-form {
+                padding: 1.5rem;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .modal {
+                padding: 1.5rem;
+            }
+            .modal .form-row {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                flex-wrap: wrap;
+                gap: 0.2rem;
+                padding: 0.5rem 0.8rem;
+            }
+            .admin-sidebar .logo {
+                font-size: 0.9rem;
+                margin-right: 0.8rem;
+            }
+            .admin-sidebar .nav-item {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+            .admin-sidebar .logout-btn {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+            .admin-main {
+                padding: 0.8rem;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .admin-stat .number {
+                font-size: 1.4rem;
+            }
+            .admin-table-wrap {
+                padding: 0.8rem;
+            }
+            .admin-table-wrap table {
+                font-size: 0.75rem;
+            }
+            .admin-table-wrap th,
+            .admin-table-wrap td {
+                padding: 0.4rem 0.3rem;
+            }
+            .admin-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .scroll-top {
+                bottom: 1rem;
+                left: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .toast {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: unset;
+                padding: 0.8rem 1.2rem;
+            }
+        }
+        @media (max-width:480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+            section {
+                padding: 3rem 0;
+            }
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+            .modal-wide {
+                max-width: 100%;
+                margin: 0.5rem;
+            }
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gray-300);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+        .admin-main::-webkit-scrollbar {
+            width: 4px;
+        }
+        .admin-main::-webkit-scrollbar-thumb {
+            background: var(--primary);
+        }
+
+        /* loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s ease infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .btn.loading .spinner {
+            width: 18px;
+            height: 18px;
+            border-width: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST & SCROLL TOP ===== -->
+    <div class="toast" id="toast"></div>
+    <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+
+    <!-- ===== HEADER ===== -->
+    <header id="mainHeader">
+        <div class="nav-container">
+            <a href="#" class="logo"><span class="mark">DT</span>Dynamic <span>Tech</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#crm">CRM</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a onclick="openCustomerRegister()" style="cursor:pointer;">Register</a></li>
+                <li><a onclick="openAdminLogin()" style="cursor:pointer;" class="btn btn-primary" style="padding:0.4rem 1.4rem;font-size:0.85rem;">Admin</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Innovative Software <span>Solutions</span> for Modern Organizations</h1>
+                <p id="heroSubtext">Dynamic Tech delivers cutting-edge digital transformation services across Nigeria and Africa — from custom applications to enterprise CRM.</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary">Request Consultation</a>
+                    <a href="#services" class="btn btn-outline">Explore Services</a>
+                    <a onclick="openCustomerRegister()" class="btn btn-outline" style="border-color:var(--primary);color:var(--primary);">Register Now</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="slideshow-container" id="slideshowContainer">
+                    <div class="slides-wrapper" id="slidesWrapper"></div>
+                    <button class="slideshow-arrow prev" id="slidePrev">‹</button>
+                    <button class="slideshow-arrow next" id="slideNext">›</button>
+                    <div class="slideshow-dots" id="slideDots"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="section-light">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <span class="tag">About Us</span>
+                    <h3>Driving Digital Transformation Across Africa</h3>
+                    <p>Dynamic Tech, a subsidiary of Arrahmah Telecommunications, is a leading software development company delivering innovative solutions to schools, healthcare institutions, businesses, government agencies, and NGOs.</p>
+                    <p>Founded by <strong>Abduljalal Mujtaba Abubakar</strong>, we combine technical excellence with a deep understanding of the African market to build scalable, secure, and impactful technology.</p>
+                    <div class="about-stats">
+                        <div class="stat"><div class="number" id="statProjects">50+</div><div class="label">Projects</div></div>
+                        <div class="stat"><div class="number" id="statClients">30+</div><div class="label">Clients</div></div>
+                        <div class="stat"><div class="number" id="statYears">5</div><div class="label">Years</div></div>
+                    </div>
+                </div>
+                <div class="about-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section id="services" class="section-gray">
+        <div class="container">
+            <div class="section-title">
+                <span class="tag">What We Do</span>
+                <h2>Our <span>Services</span></h2>
+                <p>Comprehensive technology solutions designed to drive efficiency and growth.</p>
+            </div>
+            <div class="services-grid" id="servicesGrid"></div>
+        </div>
+    </section>
+
+    <!-- ===== WHY US ===== -->
+    <section class="section-light">
+        <div class="container">
+            <div class="section-title"><span class="tag">Why Dynamic Tech</span><h2>Why <span>Choose</span> Us</h2></div>
+            <div class="why-grid">
+                <div class="why-item"><div class="icon">🚀</div><h4>Innovation First</h4><p>We leverage the latest technologies to deliver future-ready solutions.</p></div>
+                <div class="why-item"><div class="icon">🔒</div><h4>Security &amp; Trust</h4><p>Enterprise-grade security with data protection and compliance.</p></div>
+                <div class="why-item"><div class="icon">🌍</div><h4>Local Expertise</h4><p>Deep understanding of the African market and its unique challenges.</p></div>
+                <div class="why-item"><div class="icon">🤝</div><h4>Customer-Centric</h4><p>We partner with you for long-term success and continuous growth.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="section-gray">
+        <div class="container">
+            <div class="section-title"><span class="tag">Testimonials</span><h2>Client <span>Success</span> Stories</h2></div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card"><p class="quote">"Dynamic Tech transformed our school management with a system that streamlined everything from enrollment to fee tracking. Highly recommended!"</p><div class="author"><div class="avatar">MA</div><div><div class="name">Musa Ahmed</div><div class="role">Principal, Greenfield Academy</div></div></div></div>
+                <div class="testimonial-card"><p class="quote">"Their healthcare management platform reduced our administrative overhead by 40% and improved patient care coordination significantly."</p><div class="author"><div class="avatar">FO</div><div><div class="name">Dr. Fatima Ogunleye</div><div class="role">CEO, MediCare Clinics</div></div></div></div>
+                <div class="testimonial-card"><p class="quote">"The custom web application they built for our logistics business gave us real-time visibility and control over our entire supply chain."</p><div class="author"><div class="avatar">KI</div><div><div class="name">Kingsley Ibe</div><div class="role">Operations Director, SwiftLogistics</div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CRM ===== -->
+    <section id="crm" class="section-light">
+        <div class="container">
+            <div class="section-title"><span class="tag">CRM Portal</span><h2>Customer <span>Relationship</span> Management</h2><p>Empower your team with a comprehensive CRM platform for lead management, support, and analytics.</p></div>
+            <div class="crm-preview">
+                <div class="crm-header"><h3>Dynamic <span>CRM</span> Dashboard</h3><span style="font-size:0.85rem;color:rgba(255,255,255,0.5);">Secure · Real-time · Scalable</span></div>
+                <div class="crm-grid">
+                    <div class="crm-module"><div class="icon">👥</div><h5>Customer Database</h5></div>
+                    <div class="crm-module"><div class="icon">🎯</div><h5>Lead Management</h5></div>
+                    <div class="crm-module"><div class="icon">📊</div><h5>Sales Pipeline</h5></div>
+                    <div class="crm-module"><div class="icon">💬</div><h5>Communication Log</h5></div>
+                    <div class="crm-module"><div class="icon">✅</div><h5>Task Management</h5></div>
+                    <div class="crm-module"><div class="icon">📅</div><h5>Appointments</h5></div>
+                    <div class="crm-module"><div class="icon">🧩</div><h5>Segmentation</h5></div>
+                    <div class="crm-module"><div class="icon">📧</div><h5>Automated Emails</h5></div>
+                    <div class="crm-module"><div class="icon">📈</div><h5>Analytics &amp; Reports</h5></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="section-gray">
+        <div class="container">
+            <div class="section-title"><span class="tag">Get in Touch</span><h2>Let's <span>Connect</span></h2><p>Reach out for consultations, inquiries, or to learn how we can help you grow.</p></div>
+            <div class="contact-wrap">
+                <div class="contact-info">
+                    <h3>We'd love to hear from you</h3>
+                    <p>Our team is ready to discuss your project, answer your questions, and help you find the right solution.</p>
+                    <div class="contact-detail"><div class="icon">📧</div><div class="text">Email<small><a href="mailto:mujtabba1796@gmail.com">mujtabba1796@gmail.com</a></small></div></div>
+                    <div class="contact-detail"><div class="icon">📞</div><div class="text">Phone (Call)<small><a href="tel:08142924297">08142924297</a></small></div></div>
+                    <div class="contact-detail"><div class="icon">💬</div><div class="text">WhatsApp<small><a href="https://wa.me/2349165191875" target="_blank">09165191875</a></small></div></div>
+                    <div class="contact-detail"><div class="icon">📍</div><div class="text">Address<small>No 2 Iman Abdullahi Koraye, Zangon Shanu, Sabongari, Kaduna</small></div></div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group"><label for="cname">Full Name</label><input type="text" id="cname" placeholder="Your full name" required /></div>
+                    <div class="form-group"><label for="cemail">Email Address</label><input type="email" id="cemail" placeholder="you@example.com" required /></div>
+                    <div class="form-group"><label for="cphone">Phone Number</label><input type="tel" id="cphone" placeholder="08123456789" /></div>
+                    <div class="form-group"><label for="cservice">Service of Interest</label><select id="cservice"><option value="">Select a service</option></select></div>
+                    <div class="form-group"><label for="cmessage">Message</label><textarea id="cmessage" placeholder="Tell us about your project or inquiry..." required></textarea></div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message</button>
+                    <p id="formFeedback" style="margin-top:0.8rem;font-size:0.9rem;text-align:center;color:var(--gray-500);"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="section-light">
+        <div class="container">
+            <div class="section-title"><span class="tag">Support Center</span><h2>Frequently Asked <span>Questions</span></h2></div>
+            <div class="faq-list">
+                <div class="faq-item active"><button class="faq-question">What industries does Dynamic Tech serve?<span class="arrow">▾</span></button><div class="faq-answer">We serve education, healthcare, business, government, and NGOs across Nigeria and Africa.</div></div>
+                <div class="faq-item"><button class="faq-question">How do I request a consultation?<span class="arrow">▾</span></button><div class="faq-answer">You can use the contact form above, call us directly at 08142924297, or send an email to mujtabba1796@gmail.com.</div></div>
+                <div class="faq-item"><button class="faq-question">Do you offer ongoing support after deployment?<span class="arrow">▾</span></button><div class="faq-answer">Yes, we provide comprehensive technical support and maintenance packages tailored to your needs.</div></div>
+                <div class="faq-item"><button class="faq-question">Can you build custom software for my organization?<span class="arrow">▾</span></button><div class="faq-answer">Absolutely. We specialize in custom web applications built to your exact specifications and requirements.</div></div>
+                <div class="faq-item"><button class="faq-question">Is my data secure with Dynamic Tech?<span class="arrow">▾</span></button><div class="faq-answer">Yes, we implement enterprise-grade security measures, data encryption, and comply with best practices to protect your information.</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><a href="#" class="logo"><span class="mark">DT</span>Dynamic <span>Tech</span></a><p>Innovative Software Solutions for Modern Organizations. Driving digital transformation across Africa.</p><div class="footer-social"><a href="#">📘</a><a href="#">🐦</a><a href="#">🔗</a><a href="#">📸</a><a href="#">▶️</a></div></div>
+                <div class="footer-col"><h4>Quick Links</h4><a href="#services">Services</a><a href="#about">About Us</a><a href="#crm">CRM Portal</a><a href="#contact">Contact</a><a href="#faq">FAQ</a><a onclick="openCustomerRegister()" style="cursor:pointer;">Register</a></div>
+                <div class="footer-col"><h4>Services</h4><a href="#services">School Management</a><a href="#services">Business Solutions</a><a href="#services">Healthcare Systems</a><a href="#services">Custom Applications</a><a href="#services">Technical Support</a></div>
+                <div class="footer-col"><h4>Contact</h4><a href="mailto:mujtabba1796@gmail.com">mujtabba1796@gmail.com</a><a href="tel:08142924297">📞 08142924297</a><a href="https://wa.me/2349165191875" target="_blank">💬 WhatsApp 09165191875</a><a style="font-size:0.85rem;color:rgba(255,255,255,0.5);">📍 No 2 Iman Abdullahi Koraye, Zangon Shanu, Sabongari, Kaduna</a></div>
+            </div>
+            <div class="footer-bottom"><span>© Dynamic Tech. All Rights Reserved.</span><div class="contact-info"><a href="mailto:mujtabba1796@gmail.com">📧 mujtabba1796@gmail.com</a><a href="tel:08142924297">📞 08142924297</a><a href="https://wa.me/2349165191875" target="_blank">💬 09165191875</a></div></div>
+        </div>
+    </footer>
+
+    <!-- ===== OVERLAYS ===== -->
+    <!-- Admin Login -->
+    <div class="overlay" id="adminLoginOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeOverlay('adminLoginOverlay')">&times;</button>
+            <h2>Admin <span>Login</span></h2>
+            <p class="subtitle">Enter your credentials to access the dashboard.</p>
+            <form id="adminLoginForm">
+                <div class="form-group"><label for="adminUsername">Username</label><input type="text" id="adminUsername" placeholder="admin" value="admin" /></div>
+                <div class="form-group"><label for="adminPassword">Password</label><input type="password" id="adminPassword" placeholder="••••••••" value="admin123" /></div>
+                <div id="adminLoginError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-bottom:0.5rem;"></div>
+                <button type="submit" class="btn btn-primary" id="adminLoginBtn">Login</button>
+            </form>
+            <div class="switch-link">Demo: <strong>admin</strong> / <strong>admin123</strong></div>
+        </div>
+    </div>
+
+    <!-- Customer Register -->
+    <div class="overlay" id="customerRegisterOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeOverlay('customerRegisterOverlay')">&times;</button>
+            <h2>Customer <span>Registration</span></h2>
+            <p class="subtitle">Create an account to place service orders and track your projects.</p>
+            <form id="customerRegisterForm">
+                <div class="form-row">
+                    <div class="form-group"><label for="regFullName">Full Name *</label><input type="text" id="regFullName" placeholder="John Doe" required /></div>
+                    <div class="form-group"><label for="regEmail">Email *</label><input type="email" id="regEmail" placeholder="john@example.com" required /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="regPhone">Phone</label><input type="tel" id="regPhone" placeholder="08123456789" /></div>
+                    <div class="form-group"><label for="regCompany">Company</label><input type="text" id="regCompany" placeholder="ABC Ltd" /></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="regPassword">Password *</label><input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" /></div>
+                    <div class="form-group"><label for="regConfirm">Confirm Password *</label><input type="password" id="regConfirm" placeholder="Confirm password" required /></div>
+                </div>
+                <div id="regError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-bottom:0.5rem;"></div>
+                <button type="submit" class="btn btn-primary" id="regBtn">Register</button>
+            </form>
+            <div class="switch-link">Already have an account? <a onclick="closeOverlay('customerRegisterOverlay');openCustomerLogin();">Login here</a></div>
+        </div>
+    </div>
+
+    <!-- Customer Login -->
+    <div class="overlay" id="customerLoginOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeOverlay('customerLoginOverlay')">&times;</button>
+            <h2>Customer <span>Login</span></h2>
+            <p class="subtitle">Login to your account to place orders and track services.</p>
+            <form id="customerLoginForm">
+                <div class="form-group"><label for="custLoginEmail">Email</label><input type="email" id="custLoginEmail" placeholder="john@example.com" required /></div>
+                <div class="form-group"><label for="custLoginPassword">Password</label><input type="password" id="custLoginPassword" placeholder="••••••••" required /></div>
+                <div id="custLoginError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-bottom:0.5rem;"></div>
+                <button type="submit" class="btn btn-primary" id="custLoginBtn">Login</button>
+            </form>
+            <div class="switch-link">Don't have an account? <a onclick="closeOverlay('customerLoginOverlay');openCustomerRegister();">Register here</a></div>
+        </div>
+    </div>
+
+    <!-- Customer Dashboard -->
+    <div class="overlay" id="customerDashboardOverlay">
+        <div class="modal modal-wide">
+            <button class="close-btn" onclick="closeOverlay('customerDashboardOverlay')">&times;</button>
+            <h2>My <span>Dashboard</span></h2>
+            <p class="subtitle" id="custDashboardGreeting">Welcome back!</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.5rem 0;">
+                <div style="background:var(--gray-50);border-radius:var(--radius);padding:1.5rem;text-align:center;border:1px solid var(--gray-200);">
+                    <div style="font-size:2rem;font-weight:800;background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="custOrderCount">0</div>
+                    <div style="font-size:0.85rem;color:var(--gray-500);">Total Orders</div>
+                </div>
+                <div style="background:var(--gray-50);border-radius:var(--radius);padding:1.5rem;text-align:center;border:1px solid var(--gray-200);">
+                    <div style="font-size:2rem;font-weight:800;background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="custActiveOrders">0</div>
+                    <div style="font-size:0.85rem;color:var(--gray-500);">Active Orders</div>
+                </div>
+            </div>
+            <h4 style="margin-bottom:0.8rem;">Place a Service Order</h4>
+            <form id="customerOrderForm" style="margin-bottom:2rem;">
+                <div class="form-row">
+                    <div class="form-group"><label for="orderService">Select Service *</label><select id="orderService" required><option value="">Choose a service...</option></select></div>
+                    <div class="form-group"><label for="orderMessage">Additional Details</label><textarea id="orderMessage" placeholder="Tell us more..." style="min-height:60px;"></textarea></div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:auto;padding:0.5rem 2rem;" id="placeOrderBtn">Place Order</button>
+                <span id="orderFeedback" style="margin-left:1rem;font-size:0.9rem;color:var(--gray-500);"></span>
+            </form>
+            <h4 style="margin-bottom:0.8rem;">My Orders</h4>
+            <div class="admin-table-wrap">
+                <table>
+                    <thead><tr><th>Service</th><th>Status</th><th>Date</th><th>Message</th></tr></thead>
+                    <tbody id="custOrdersTableBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">Loading orders...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN DASHBOARD ===== -->
+    <div class="admin-dashboard" id="adminDashboard">
+        <div class="admin-sidebar">
+            <a href="#" class="logo"><span class="mark">DT</span>Admin</a>
+            <button class="nav-item active" data-tab="dashboard"><span class="icon">📊</span> Dashboard</button>
+            <button class="nav-item" data-tab="products"><span class="icon">📦</span> Products</button>
+            <button class="nav-item" data-tab="slides"><span class="icon">🖼️</span> Slides</button>
+            <button class="nav-item" data-tab="customers"><span class="icon">👥</span> Customers</button>
+            <button class="nav-item" data-tab="orders"><span class="icon">📋</span> Orders</button>
+            <div class="nav-divider"></div>
+            <button class="logout-btn" onclick="adminLogout()">🚪 Logout</button>
+        </div>
+        <div class="admin-main">
+            <!-- Dashboard -->
+            <div id="tab-dashboard" class="admin-tab">
+                <div class="page-header"><h2>Dashboard <span>Overview</span></h2></div>
+                <div class="admin-stats" id="adminStats">
+                    <div class="admin-stat"><div class="number" id="statProducts">0</div><div class="label">Products</div></div>
+                    <div class="admin-stat"><div class="number" id="statSlides">0</div><div class="label">Slides</div></div>
+                    <div class="admin-stat"><div class="number" id="statCustomers">0</div><div class="label">Customers</div></div>
+                    <div class="admin-stat"><div class="number" id="statOrders">0</div><div class="label">Orders</div></div>
+                </div>
+                <div style="background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border:1px solid var(--gray-200);">
+                    <h4 style="margin-bottom:0.5rem;">Recent Orders</h4>
+                    <div class="admin-table-wrap" style="box-shadow:none;padding:0;border:none;">
+                        <table><thead><tr><th>Customer</th><th>Service</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentOrdersBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">Loading orders...</td></tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div id="tab-products" class="admin-tab" style="display:none;">
+                <div class="page-header">
+                    <h2>Manage <span>Products</span></h2>
+                    <button class="btn btn-primary" onclick="openProductModal()">+ Add New</button>
+                </div>
+                <div class="admin-toolbar">
+                    <input class="search-box" id="productSearch" placeholder="Search products..." oninput="filterProducts()" />
+                </div>
+                <div class="admin-table-wrap">
+                    <table>
+                        <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Actions</th></tr></thead>
+                        <tbody id="productsTableBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">Loading products...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Slides -->
+            <div id="tab-slides" class="admin-tab" style="display:none;">
+                <div class="page-header">
+                    <h2>Manage <span>Slides</span></h2>
+                    <button class="btn btn-primary" onclick="openSlideModal()">+ Add New Slide</button>
+                </div>
+                <div class="admin-toolbar">
+                    <input class="search-box" id="slideSearch" placeholder="Search slides..." oninput="filterSlides()" />
+                </div>
+                <div class="admin-table-wrap">
+                    <table>
+                        <thead><tr><th>Image</th><th>Title</th><th>Subtitle</th><th>Active</th><th>Order</th><th>Actions</th></tr></thead>
+                        <tbody id="slidesTableBody"><tr><td colspan="6" style="text-align:center;color:var(--gray-500);">Loading slides...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Customers -->
+            <div id="tab-customers" class="admin-tab" style="display:none;">
+                <div class="page-header"><h2>Manage <span>Customers</span></h2></div>
+                <div class="admin-toolbar">
+                    <input class="search-box" id="customerSearch" placeholder="Search customers..." oninput="filterCustomers()" />
+                </div>
+                <div class="admin-table-wrap">
+                    <table>
+                        <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>Orders</th></tr></thead>
+                        <tbody id="customersTableBody"><tr><td colspan="5" style="text-align:center;color:var(--gray-500);">Loading customers...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders -->
+            <div id="tab-orders" class="admin-tab" style="display:none;">
+                <div class="page-header"><h2>Manage <span>Orders</span></h2></div>
+                <div class="admin-toolbar">
+                    <input class="search-box" id="orderSearch" placeholder="Search orders..." oninput="filterOrders()" />
+                    <select id="orderStatusFilter" onchange="filterOrders()">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="admin-table-wrap">
+                    <table>
+                        <thead><tr><th>Customer</th><th>Service</th><th>Status</th><th>Date</th><th>Message</th><th>Actions</th></tr></thead>
+                        <tbody id="ordersTableBody"><tr><td colspan="6" style="text-align:center;color:var(--gray-500);">Loading orders...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PRODUCT MODAL ===== -->
+    <div class="overlay" id="productModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeProductModal()">&times;</button>
+            <h2 id="productModalTitle">Add <span>Product</span></h2>
+            <form id="productForm" novalidate>
+                <input type="hidden" id="productEditId" />
+                <div class="form-group"><label for="productName">Product Name *</label><input type="text" id="productName" placeholder="e.g. School Management System" required /></div>
+                <div class="form-group"><label for="productCategory">Category *</label><select id="productCategory" required><option value="">Select category</option><option value="education">Education</option><option value="business">Business</option><option value="healthcare">Healthcare</option><option value="custom">Custom Applications</option><option value="support">Technical Support</option><option value="other">Other</option></select></div>
+                <div class="form-group"><label for="productDescription">Description *</label><textarea id="productDescription" placeholder="Describe the service..." required></textarea></div>
+                <div class="form-group"><label for="productFeatures">Features (comma separated)</label><input type="text" id="productFeatures" placeholder="Feature 1, Feature 2, Feature 3" /></div>
+                <div class="form-group">
+                    <label>Product Image (optional)</label>
+                    <div class="image-upload-area" id="productImageArea">
+                        <div class="placeholder" id="productUploadPlaceholder"><span class="icon">📸</span> Click or drag to upload</div>
+                        <input type="file" id="productImageInput" accept="image/*" />
+                        <img id="productImagePreview" class="preview-img" style="display:none;" alt="Preview" />
+                        <button type="button" class="remove-img-btn" id="productRemoveImage">✕</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="productSubmitBtn">Save Product</button>
+                <div id="productFormError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-top:0.5rem;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE MODAL ===== -->
+    <div class="overlay" id="slideModalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="closeSlideModal()">&times;</button>
+            <h2 id="slideModalTitle">Add <span>Slide</span></h2>
+            <form id="slideForm" novalidate>
+                <input type="hidden" id="slideEditId" />
+                <div class="form-group"><label for="slideTitle">Title *</label><input type="text" id="slideTitle" placeholder="Slide headline" required /></div>
+                <div class="form-group"><label for="slideSubtitle">Subtitle</label><input type="text" id="slideSubtitle" placeholder="Short description" /></div>
+                <div class="form-group"><label for="slideLink">Link (optional)</label><input type="url" id="slideLink" placeholder="https://..." /></div>
+                <div class="form-group"><label for="slideOrder">Order (higher = later)</label><input type="number" id="slideOrder" value="0" /></div>
+                <div class="form-group">
+                    <label>Slide Image *</label>
+                    <div class="image-upload-area" id="slideImageArea">
+                        <div class="placeholder" id="slideUploadPlaceholder"><span class="icon">📸</span> Click or drag to upload</div>
+                        <input type="file" id="slideImageInput" accept="image/*" required />
+                        <img id="slideImagePreview" class="preview-img" style="display:none;" alt="Preview" />
+                        <button type="button" class="remove-img-btn" id="slideRemoveImage">✕</button>
+                    </div>
+                </div>
+                <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
+                    <label for="slideActive" style="margin-bottom:0;">Active</label>
+                    <input type="checkbox" id="slideActive" checked style="width:auto;margin:0;" />
+                </div>
+                <button type="submit" class="btn btn-primary" id="slideSubmitBtn">Save Slide</button>
+                <div id="slideFormError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-top:0.5rem;"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================================================================
+    JAVASCRIPT — FULL APP WITH SUPABASE BACKEND
+    ================================================================ -->
+    <script>
+        // ====================================================================
+        // 1. SUPABASE INIT — YOUR CREDENTIALS
+        // ====================================================================
+        const SUPABASE_URL = 'https://jmnuoevnjbxcqqtpfoqt.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_zEdeXe-8C8e-uT43ITI4SQ_ZxpgFYoE';
+
+        let supabase;
+
+        function initSupabase() {
+            if (!supabase) {
+                const { createClient } = supabaseJs;
+                supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('🔌 Supabase client initialized.');
+            }
+            return supabase;
+        }
+
+        // ====================================================================
+        // 2. TOAST & HELPERS
+        // ====================================================================
+        function showToast(msg, type = 'info') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'toast show ' + type;
+            clearTimeout(el._timer);
+            el._timer = setTimeout(() => { el.className = 'toast'; }, 3500);
+        }
+
+        function openOverlay(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOverlay(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+        function getCategoryIcon(cat) {
+            const map = { education: '🏫', business: '💼', healthcare: '🏥', custom: '⚙️', support: '🔧', other: '📦' };
+            return map[cat] || '📦';
+        }
+
+        // ====================================================================
+        // 3. STATE
+        // ====================================================================
+        let loggedInCustomer = null;
+        let allProducts = [];
+        let allSlides = [];
+        let allCustomers = [];
+        let allOrders = [];
+        let currentSlideIndex = 0;
+        let slideInterval = null;
+
+        // ====================================================================
+        // 4. DATA FETCHING FROM SUPABASE
+        // ====================================================================
+        async function fetchProducts() {
+            try {
+                const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                allProducts = data || [];
+                return allProducts;
+            } catch (e) {
+                console.error('fetchProducts error:', e);
+                showToast('Failed to load products.', 'error');
+                return [];
+            }
+        }
+
+        async function fetchSlides() {
+            try {
+                const { data, error } = await supabase.from('slides').select('*').order('order', { ascending: true });
+                if (error) throw error;
+                allSlides = data || [];
+                return allSlides;
+            } catch (e) {
+                console.error('fetchSlides error:', e);
+                showToast('Failed to load slides.', 'error');
+                return [];
+            }
+        }
+
+        async function fetchCustomers() {
+            try {
+                const { data, error } = await supabase.from('customers').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                allCustomers = data || [];
+                return allCustomers;
+            } catch (e) {
+                console.error('fetchCustomers error:', e);
+                showToast('Failed to load customers.', 'error');
+                return [];
+            }
+        }
+
+        async function fetchOrders() {
+            try {
+                const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+                allOrders = data || [];
+                return allOrders;
+            } catch (e) {
+                console.error('fetchOrders error:', e);
+                showToast('Failed to load orders.', 'error');
+                return [];
+            }
+        }
+
+        async function fetchAllData() {
+            await Promise.all([fetchProducts(), fetchSlides(), fetchCustomers(), fetchOrders()]);
+            updatePublicViews();
+            renderAdminDashboard();
+        }
+
+        // ====================================================================
+        // 5. SUPABASE CRUD OPERATIONS
+        // ====================================================================
+        // --- Products ---
+        async function createProduct(product) {
+            try {
+                const { data, error } = await supabase.from('products').insert([product]).select();
+                if (error) throw error;
+                if (data && data.length) allProducts.unshift(data[0]);
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('createProduct error:', e);
+                showToast('Failed to create product.', 'error');
+                return null;
+            }
+        }
+
+        async function updateProduct(id, updates) {
+            try {
+                const { data, error } = await supabase.from('products').update(updates).eq('id', id).select();
+                if (error) throw error;
+                if (data && data.length) {
+                    const idx = allProducts.findIndex(p => p.id === id);
+                    if (idx > -1) allProducts[idx] = data[0];
+                }
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('updateProduct error:', e);
+                showToast('Failed to update product.', 'error');
+                return null;
+            }
+        }
+
+        async function deleteProduct(id) {
+            try {
+                const { error } = await supabase.from('products').delete().eq('id', id);
+                if (error) throw error;
+                allProducts = allProducts.filter(p => p.id !== id);
+                return true;
+            } catch (e) {
+                console.error('deleteProduct error:', e);
+                showToast('Failed to delete product.', 'error');
+                return false;
+            }
+        }
+
+        // --- Slides ---
+        async function createSlide(slide) {
+            try {
+                const { data, error } = await supabase.from('slides').insert([slide]).select();
+                if (error) throw error;
+                if (data && data.length) allSlides.push(data[0]);
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('createSlide error:', e);
+                showToast('Failed to create slide.', 'error');
+                return null;
+            }
+        }
+
+        async function updateSlide(id, updates) {
+            try {
+                const { data, error } = await supabase.from('slides').update(updates).eq('id', id).select();
+                if (error) throw error;
+                if (data && data.length) {
+                    const idx = allSlides.findIndex(s => s.id === id);
+                    if (idx > -1) allSlides[idx] = data[0];
+                }
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('updateSlide error:', e);
+                showToast('Failed to update slide.', 'error');
+                return null;
+            }
+        }
+
+        async function deleteSlide(id) {
+            try {
+                const { error } = await supabase.from('slides').delete().eq('id', id);
+                if (error) throw error;
+                allSlides = allSlides.filter(s => s.id !== id);
+                return true;
+            } catch (e) {
+                console.error('deleteSlide error:', e);
+                showToast('Failed to delete slide.', 'error');
+                return false;
+            }
+        }
+
+        // --- Customers ---
+        async function createCustomer(customer) {
+            try {
+                const { data, error } = await supabase.from('customers').insert([customer]).select();
+                if (error) throw error;
+                if (data && data.length) allCustomers.push(data[0]);
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('createCustomer error:', e);
+                showToast('Registration failed. Please try again.', 'error');
+                return null;
+            }
+        }
+
+        async function findCustomerByEmail(email) {
+            try {
+                const { data, error } = await supabase.from('customers').select('*').eq('email', email).maybeSingle();
+                if (error) throw error;
+                return data;
+            } catch (e) {
+                console.error('findCustomerByEmail error:', e);
+                return null;
+            }
+        }
+
+        // --- Orders ---
+        async function createOrder(order) {
+            try {
+                const { data, error } = await supabase.from('orders').insert([order]).select();
+                if (error) throw error;
+                if (data && data.length) allOrders.unshift(data[0]);
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('createOrder error:', e);
+                showToast('Failed to place order.', 'error');
+                return null;
+            }
+        }
+
+        async function updateOrderStatus(id, status) {
+            try {
+                const { data, error } = await supabase.from('orders').update({ status, updated_at: new Date() }).eq('id', id)
+                    .select();
+                if (error) throw error;
+                if (data && data.length) {
+                    const idx = allOrders.findIndex(o => o.id === id);
+                    if (idx > -1) allOrders[idx] = data[0];
+                }
+                return data ? data[0] : null;
+            } catch (e) {
+                console.error('updateOrderStatus error:', e);
+                showToast('Failed to update order status.', 'error');
+                return null;
+            }
+        }
+
+        async function deleteOrder(id) {
+            try {
+                const { error } = await supabase.from('orders').delete().eq('id', id);
+                if (error) throw error;
+                allOrders = allOrders.filter(o => o.id !== id);
+                return true;
+            } catch (e) {
+                console.error('deleteOrder error:', e);
+                showToast('Failed to delete order.', 'error');
+                return false;
+            }
+        }
+
+        // ====================================================================
+        // 6. PUBLIC VIEWS
+        // ====================================================================
+        function updatePublicViews() {
+            renderServicesGrid();
+            renderSlideshow();
+            updateContactDropdown();
+        }
+
+        function renderServicesGrid() {
+            const grid = document.getElementById('servicesGrid');
+            if (!allProducts.length) {
+                grid.innerHTML = '<p style="text-align:center;color:var(--gray-500);grid-column:1/-1;">No services available yet.</p>';
+                return;
+            }
+            grid.innerHTML = allProducts.map(p => `
+                <div class="service-card">
+                    <div class="icon">${getCategoryIcon(p.category)}</div>
+                    <h3>${p.name}</h3>
+                    <p>${p.description || ''}</p>
+                    ${p.features && p.features.length ? `<ul class="features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
+                    ${p.image ? `<img src="${p.image}" class="service-image" alt="${p.name}" />` : ''}
+                    <button class="btn btn-primary btn-sm order-btn" onclick="openCustomerRegister()">Order Now</button>
+                </div>
+            `).join('');
+        }
+
+        function updateContactDropdown() {
+            const sel = document.getElementById('cservice');
+            const val = sel.value;
+            sel.innerHTML = '<option value="">Select a service</option>' +
+                allProducts.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            if (val) sel.value = val;
+        }
+
+        // ===== SLIDESHOW =====
+        function renderSlideshow() {
+            const wrapper = document.getElementById('slidesWrapper');
+            const dotsContainer = document.getElementById('slideDots');
+            const activeSlides = allSlides.filter(s => s.active).sort((a, b) => (a.order || 0) - (b.order || 0));
+
+            if (!activeSlides.length) {
+                wrapper.innerHTML = `
+                    <div class="slide-item active" style="background:var(--dark);display:flex;align-items:center;justify-content:center;">
+                        <div class="slide-content"><h3>Welcome to Dynamic Tech</h3><p>Innovative software solutions for your organization.</p></div>
+                    </div>
+                `;
+                dotsContainer.innerHTML = '';
+                return;
+            }
+
+            wrapper.innerHTML = activeSlides.map((s, i) => `
+                <div class="slide-item ${i === 0 ? 'active' : ''}" style="background-image: url('${s.image || ''}'); background-size: cover; background-position: center;">
+                    <div class="slide-content">
+                        <h3>${s.title}</h3>
+                        ${s.subtitle ? `<p>${s.subtitle}</p>` : ''}
+                        ${s.link ? `<a href="${s.link}" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">Learn More</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            dotsContainer.innerHTML = activeSlides.map((_, i) =>
+                `<button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i+1}"></button>`
+            ).join('');
+
+            dotsContainer.querySelectorAll('.dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    goToSlide(parseInt(this.dataset.index));
+                });
+            });
+
+            document.getElementById('slidePrev').onclick = () => changeSlide(-1);
+            document.getElementById('slideNext').onclick = () => changeSlide(1);
+
+            currentSlideIndex = 0;
+            startSlideshow();
+        }
+
+        function goToSlide(index) {
+            const slidesEl = document.querySelectorAll('.slide-item');
+            const dots = document.querySelectorAll('.dot');
+            if (!slidesEl.length) return;
+            if (index < 0) index = slidesEl.length - 1;
+            if (index >= slidesEl.length) index = 0;
+            slidesEl.forEach(el => el.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slidesEl[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlideIndex = index;
+        }
+
+        function changeSlide(direction) {
+            const slidesEl = document.querySelectorAll('.slide-item');
+            if (!slidesEl.length) return;
+            goToSlide(currentSlideIndex + direction);
+            resetSlideshowTimer();
+        }
+
+        function startSlideshow() {
+            stopSlideshow();
+            slideInterval = setInterval(() => changeSlide(1), 5000);
+        }
+
+        function stopSlideshow() {
+            if (slideInterval) { clearInterval(slideInterval);
+                slideInterval = null; }
+        }
+
+        function resetSlideshowTimer() {
+            stopSlideshow();
+            startSlideshow();
+        }
+
+        // ====================================================================
+        // 7. ADMIN DASHBOARD
+        // ====================================================================
+        function openAdminDashboard() {
+            document.getElementById('adminDashboard').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderAdminDashboard();
+        }
+
+        function adminLogout() {
+            document.getElementById('adminDashboard').classList.remove('active');
+            document.body.style.overflow = '';
+            showToast('Logged out.', 'info');
+        }
+
+        // Admin tab switching
+        document.querySelectorAll('.admin-sidebar .nav-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.admin-sidebar .nav-item').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.admin-tab').forEach(el => el.style.display = 'none');
+                const target = document.getElementById('tab-' + tab);
+                if (target) target.style.display = 'block';
+                if (tab === 'dashboard') renderAdminDashboard();
+                if (tab === 'products') renderProductsTable();
+                if (tab === 'slides') renderSlidesTable();
+                if (tab === 'customers') renderCustomersTable();
+                if (tab === 'orders') renderOrdersTable();
+            });
+        });
+
+        // Show dashboard by default
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.admin-tab').forEach(el => el.style.display = 'none');
+            const dash = document.getElementById('tab-dashboard');
+            if (dash) dash.style.display = 'block';
+        });
+
+        function renderAdminDashboard() {
+            document.getElementById('statProducts').textContent = allProducts.length;
+            document.getElementById('statSlides').textContent = allSlides.filter(s => s.active).length;
+            document.getElementById('statCustomers').textContent = allCustomers.length;
+            document.getElementById('statOrders').textContent = allOrders.length;
+
+            const recent = allOrders.slice(0, 5);
+            const tbody = document.getElementById('recentOrdersBody');
+            if (!recent.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No orders yet.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = recent.map(o => {
+                const cust = allCustomers.find(c => c.id === o.customer_id);
+                const prod = allProducts.find(p => p.id === o.product_id);
+                return `<tr>
+                    <td>${cust ? cust.full_name : 'Unknown'}</td>
+                    <td>${prod ? prod.name : 'Unknown'}</td>
+                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                    <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        // ===== PRODUCTS TABLE =====
+        function renderProductsTable(filter = '') {
+            const tbody = document.getElementById('productsTableBody');
+            let list = allProducts;
+            if (filter) list = list.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No products found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(p => `
+                <tr>
+                    <td>${p.image ? `<img src="${p.image}" class="img-preview-thumb" alt="${p.name}" />` : '📄'}</td>
+                    <td><strong>${p.name}</strong><br><small style="color:var(--gray-500);">${p.category}</small></td>
+                    <td>${p.category}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-primary btn-sm" onclick="editProduct('${p.id}')">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProductHandler('${p.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterProducts() { renderProductsTable(document.getElementById('productSearch').value); }
+
+        // ===== SLIDES TABLE =====
+        function renderSlidesTable(filter = '') {
+            const tbody = document.getElementById('slidesTableBody');
+            let list = allSlides;
+            if (filter) list = list.filter(s => s.title.toLowerCase().includes(filter.toLowerCase()));
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No slides found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(s => `
+                <tr>
+                    <td>${s.image ? `<img src="${s.image}" class="img-preview-thumb" alt="${s.title}" />` : '📄'}</td>
+                    <td><strong>${s.title}</strong></td>
+                    <td>${s.subtitle || '—'}</td>
+                    <td><span class="status-badge ${s.active ? 'active' : 'inactive'}">${s.active ? 'Active' : 'Inactive'}</span></td>
+                    <td>${s.order || 0}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-primary btn-sm" onclick="editSlide('${s.id}')">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteSlideHandler('${s.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterSlides() { renderSlidesTable(document.getElementById('slideSearch').value); }
+
+        // ===== CUSTOMERS TABLE =====
+        function renderCustomersTable(filter = '') {
+            const tbody = document.getElementById('customersTableBody');
+            let list = allCustomers;
+            if (filter) list = list.filter(c => c.full_name.toLowerCase().includes(filter.toLowerCase()) || c.email.toLowerCase()
+                .includes(filter.toLowerCase()));
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);">No customers found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(c => {
+                const orderCount = allOrders.filter(o => o.customer_id === c.id).length;
+                return `<tr>
+                    <td><strong>${c.full_name}</strong></td>
+                    <td>${c.email}</td>
+                    <td>${c.phone || '—'}</td>
+                    <td>${c.company || '—'}</td>
+                    <td>${orderCount}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function filterCustomers() { renderCustomersTable(document.getElementById('customerSearch').value); }
+
+        // ===== ORDERS TABLE =====
+        function renderOrdersTable(filter = '', statusFilter = '') {
+            const tbody = document.getElementById('ordersTableBody');
+            let list = [...allOrders];
+            if (filter) list = list.filter(o => {
+                const cust = allCustomers.find(c => c.id === o.customer_id);
+                const prod = allProducts.find(p => p.id === o.product_id);
+                return (cust && cust.full_name.toLowerCase().includes(filter.toLowerCase())) ||
+                    (prod && prod.name.toLowerCase().includes(filter.toLowerCase()));
+            });
+            if (statusFilter) list = list.filter(o => o.status === statusFilter);
+            if (!list.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No orders found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(o => {
+                const cust = allCustomers.find(c => c.id === o.customer_id);
+                const prod = allProducts.find(p => p.id === o.product_id);
+                return `<tr>
+                    <td>${cust ? cust.full_name : 'Unknown'}</td>
+                    <td>${prod ? prod.name : 'Unknown'}</td>
+                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                    <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
+                    <td>
+                        <div class="actions">
+                            <select onchange="updateOrderStatusHandler('${o.id}', this.value)" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--gray-200);font-size:0.75rem;background:var(--white);">
+                                <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+                                <option value="in-progress" ${o.status==='in-progress'?'selected':''}>In Progress</option>
+                                <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
+                                <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+                            </select>
+                            <button class="btn btn-danger btn-sm" onclick="deleteOrderHandler('${o.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function filterOrders() { renderOrdersTable(document.getElementById('orderSearch').value, document.getElementById(
+                'orderStatusFilter').value); }
+
+        // ====================================================================
+        // 8. ADMIN CRUD HANDLERS
+        // ====================================================================
+        // --- Product ---
+        async function openProductModal(data = null) {
+            document.getElementById('productModalTitle').innerHTML = data ? 'Edit <span>Product</span>' :
+                'Add <span>Product</span>';
+            document.getElementById('productName').value = data ? data.name : '';
+            document.getElementById('productCategory').value = data ? data.category : '';
+            document.getElementById('productDescription').value = data ? data.description : '';
+            document.getElementById('productFeatures').value = data && data.features ? data.features.join(', ') : '';
+            document.getElementById('productImagePreview').src = data && data.image ? data.image : '';
+            document.getElementById('productImagePreview').style.display = data && data.image ? 'block' : 'none';
+            document.getElementById('productUploadPlaceholder').style.display = data && data.image ? 'none' : 'block';
+            document.getElementById('productRemoveImage').classList.toggle('show', !!(data && data.image));
+            document.getElementById('productEditId').value = data ? data.id : '';
+            document.getElementById('productImageInput').value = '';
+            document.getElementById('productFormError').textContent = '';
+            document.getElementById('productFormError').classList.remove('show');
+            openOverlay('productModalOverlay');
+        }
+
+        async function editProduct(id) {
+            const p = allProducts.find(x => x.id === id);
+            if (p) openProductModal(p);
+            else showToast('Product not found.', 'error');
+        }
+
+        async function deleteProductHandler(id) {
+            if (!confirm('Delete this product?')) return;
+            const ok = await deleteProduct(id);
+            if (ok) {
+                renderProductsTable(document.getElementById('productSearch').value);
+                showToast('Product deleted.', 'info');
+                renderAdminDashboard();
+                updatePublicViews();
+            }
+        }
+
+        document.getElementById('productForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const editId = document.getElementById('productEditId').value;
+            const name = document.getElementById('productName').value.trim();
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value.trim();
+            const featuresRaw = document.getElementById('productFeatures').value.trim();
+            const features = featuresRaw ? featuresRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+            const image = document.getElementById('productImagePreview').src || '';
+
+            const errorEl = document.getElementById('productFormError');
+            if (!name || !category || !description) {
+                errorEl.textContent = 'Please fill in all required fields.';
+                errorEl.classList.add('show');
+                return;
+            }
+            errorEl.textContent = '';
+            errorEl.classList.remove('show');
+
+            const btn = document.getElementById('productSubmitBtn');
+            btn.innerHTML = '<span class="spinner"></span> Saving...';
+            btn.disabled = true;
+
+            if (editId) {
+                await updateProduct(editId, { name, category, description, features, image });
+            } else {
+                await createProduct({ id: uid(), name, category, description, features, image, created_at: new Date() });
+            }
+            btn.innerHTML = 'Save Product';
+            btn.disabled = false;
+            closeProductModal();
+            renderProductsTable(document.getElementById('productSearch').value);
+            showToast(editId ? 'Product updated!' : 'Product added!', 'success');
+            renderAdminDashboard();
+            updatePublicViews();
+        });
+
+        function closeProductModal() { closeOverlay('productModalOverlay');
+            document.getElementById('productImageInput').value = ''; }
+
+        // --- Slide ---
+        async function openSlideModal(data = null) {
+            document.getElementById('slideModalTitle').innerHTML = data ? 'Edit <span>Slide</span>' : 'Add <span>Slide</span>';
+            document.getElementById('slideTitle').value = data ? data.title : '';
+            document.getElementById('slideSubtitle').value = data ? data.subtitle : '';
+            document.getElementById('slideLink').value = data ? data.link : '';
+            document.getElementById('slideOrder').value = data ? data.order : 0;
+            document.getElementById('slideActive').checked = data ? data.active : true;
+            document.getElementById('slideImagePreview').src = data && data.image ? data.image : '';
+            document.getElementById('slideImagePreview').style.display = data && data.image ? 'block' : 'none';
+            document.getElementById('slideUploadPlaceholder').style.display = data && data.image ? 'none' : 'block';
+            document.getElementById('slideRemoveImage').classList.toggle('show', !!(data && data.image));
+            document.getElementById('slideEditId').value = data ? data.id : '';
+            document.getElementById('slideImageInput').value = '';
+            document.getElementById('slideImageInput').required = !data;
+            document.getElementById('slideFormError').textContent = '';
+            document.getElementById('slideFormError').classList.remove('show');
+            openOverlay('slideModalOverlay');
+        }
+
+        async function editSlide(id) {
+            const s = allSlides.find(x => x.id === id);
+            if (s) openSlideModal(s);
+            else showToast('Slide not found.', 'error');
+        }
+
+        async function deleteSlideHandler(id) {
+            if (!confirm('Delete this slide?')) return;
+            const ok = await deleteSlide(id);
+            if (ok) {
+                renderSlidesTable(document.getElementById('slideSearch').value);
+                showToast('Slide deleted.', 'info');
+                renderAdminDashboard();
+                updatePublicViews();
+            }
+        }
+
+        document.getElementById('slideForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const editId = document.getElementById('slideEditId').value;
+            const title = document.getElementById('slideTitle').value.trim();
+            const subtitle = document.getElementById('slideSubtitle').value.trim();
+            const link = document.getElementById('slideLink').value.trim();
+            const order = parseInt(document.getElementById('slideOrder').value) || 0;
+            const active = document.getElementById('slideActive').checked;
+            const image = document.getElementById('slideImagePreview').src || '';
+
+            const errorEl = document.getElementById('slideFormError');
+            if (!title) {
+                errorEl.textContent = 'Title is required.';
+                errorEl.classList.add('show');
+                return;
+            }
+            if (!image && !editId) {
+                errorEl.textContent = 'Please upload an image for the slide.';
+                errorEl.classList.add('show');
+                return;
+            }
+            errorEl.textContent = '';
+            errorEl.classList.remove('show');
+
+            const btn = document.getElementById('slideSubmitBtn');
+            btn.innerHTML = '<span class="spinner"></span> Saving...';
+            btn.disabled = true;
+
+            if (editId) {
+                await updateSlide(editId, { title, subtitle, link, order, active, image });
+            } else {
+                await createSlide({ id: uid(), title, subtitle, link, order, active, image, created_at: new Date() });
+            }
+            btn.innerHTML = 'Save Slide';
+            btn.disabled = false;
+            closeSlideModal();
+            renderSlidesTable(document.getElementById('slideSearch').value);
+            showToast(editId ? 'Slide updated!' : 'Slide added!', 'success');
+            renderAdminDashboard();
+            updatePublicViews();
+        });
+
+        function closeSlideModal() { closeOverlay('slideModalOverlay');
+            document.getElementById('slideImageInput').value = ''; }
+
+        // --- Order ---
+        async function updateOrderStatusHandler(id, status) {
+            const ok = await updateOrderStatus(id, status);
+            if (ok) {
+                filterOrders();
+                renderAdminDashboard();
+                showToast('Order status updated.', 'success');
+            }
+        }
+
+        async function deleteOrderHandler(id) {
+            if (!confirm('Delete this order?')) return;
+            const ok = await deleteOrder(id);
+            if (ok) {
+                filterOrders();
+                renderAdminDashboard();
+                showToast('Order deleted.', 'info');
+            }
+        }
+
+        // ====================================================================
+        // 9. IMAGE UPLOAD HELPER
+        // ====================================================================
+        function setupImageUpload(inputId, previewId, placeholderId, removeBtnId, areaId) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const placeholder = document.getElementById(placeholderId);
+            const removeBtn = document.getElementById(removeBtnId);
+            const area = document.getElementById(areaId);
+
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please select an image file.', 'error');
+                    this.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    removeBtn.classList.add('show');
+                };
+                reader.readAsDataURL(file);
+            });
+
+            removeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                preview.src = '';
+                preview.style.display = 'none';
+                placeholder.style.display = 'block';
+                removeBtn.classList.remove('show');
+                input.value = '';
+            });
+
+            area.addEventListener('dragover', function(e) { e.preventDefault();
+                this.classList.add('dragover'); });
+            area.addEventListener('dragleave', function(e) { e.preventDefault();
+                this.classList.remove('dragover'); });
+            area.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    input.files = files;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+            area.addEventListener('click', function(e) {
+                if (e.target === removeBtn) return;
+                input.click();
+            });
+        }
+
+        // ====================================================================
+        // 10. CUSTOMER AUTH & DASHBOARD
+        // ====================================================================
+        async function openCustomerRegister() {
+            document.getElementById('regError').textContent = '';
+            document.getElementById('regError').classList.remove('show');
+            document.getElementById('customerRegisterForm').reset();
+            openOverlay('customerRegisterOverlay');
+        }
+
+        document.getElementById('customerRegisterForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const fullName = document.getElementById('regFullName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const company = document.getElementById('regCompany').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+
+            const err = document.getElementById('regError');
+            if (!fullName || !email || !password) {
+                err.textContent = 'Name, Email and Password are required.';
+                err.classList.add('show');
+                return;
+            }
+            if (password.length < 6) {
+                err.textContent = 'Password must be at least 6 characters.';
+                err.classList.add('show');
+                return;
+            }
+            if (password !== confirm) {
+                err.textContent = 'Passwords do not match.';
+                err.classList.add('show');
+                return;
+            }
+
+            const existing = await findCustomerByEmail(email);
+            if (existing) {
+                err.textContent = 'Email already registered. Please login.';
+                err.classList.add('show');
+                return;
+            }
+            err.textContent = '';
+            err.classList.remove('show');
+
+            const btn = document.getElementById('regBtn');
+            btn.innerHTML = '<span class="spinner"></span> Registering...';
+            btn.disabled = true;
+
+            const newCust = await createCustomer({
+                id: uid(),
+                full_name: fullName,
+                email,
+                phone,
+                company,
+                password,
+                created_at: new Date()
+            });
+
+            btn.innerHTML = 'Register';
+            btn.disabled = false;
+
+            if (newCust) {
+                closeOverlay('customerRegisterOverlay');
+                showToast('Registration successful! Please login.', 'success');
+                loggedInCustomer = newCust;
+                openCustomerDashboard();
+            }
+        });
+
+        async function openCustomerLogin() {
+            document.getElementById('custLoginError').textContent = '';
+            document.getElementById('custLoginError').classList.remove('show');
+            openOverlay('customerLoginOverlay');
+        }
+
+        document.getElementById('customerLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('custLoginEmail').value.trim();
+            const password = document.getElementById('custLoginPassword').value;
+
+            const err = document.getElementById('custLoginError');
+            const cust = await findCustomerByEmail(email);
+            if (!cust || cust.password !== password) {
+                err.textContent = 'Invalid email or password.';
+                err.classList.add('show');
+                return;
+            }
+            err.textContent = '';
+            err.classList.remove('show');
+
+            loggedInCustomer = cust;
+            closeOverlay('customerLoginOverlay');
+            showToast('Welcome back, ' + cust.full_name + '!', 'success');
+            openCustomerDashboard();
+        });
+
+        async function openCustomerDashboard() {
+            if (!loggedInCustomer) {
+                showToast('Please login first.', 'error');
+                openCustomerLogin();
+                return;
+            }
+            // Refresh orders
+            await fetchOrders();
+            document.getElementById('custDashboardGreeting').textContent = 'Welcome back, ' + loggedInCustomer.full_name + '!';
+            const sel = document.getElementById('orderService');
+            sel.innerHTML = '<option value="">Choose a service...</option>' +
+                allProducts.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            renderCustomerOrders();
+            updateCustomerStats();
+            openOverlay('customerDashboardOverlay');
+        }
+
+        function updateCustomerStats() {
+            const custOrders = allOrders.filter(o => o.customer_id === loggedInCustomer.id);
+            document.getElementById('custOrderCount').textContent = custOrders.length;
+            document.getElementById('custActiveOrders').textContent = custOrders.filter(o => o.status === 'pending' || o.status ===
+                'in-progress').length;
+        }
+
+        function renderCustomerOrders() {
+            const tbody = document.getElementById('custOrdersTableBody');
+            const custOrders = allOrders.filter(o => o.customer_id === loggedInCustomer.id);
+            if (!custOrders.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No orders placed yet.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = custOrders.map(o => {
+                const prod = allProducts.find(p => p.id === o.product_id);
+                return `<tr>
+                    <td>${prod ? prod.name : 'Unknown'}</td>
+                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                    <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        document.getElementById('customerOrderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!loggedInCustomer) {
+                showToast('Please login first.', 'error');
+                return;
+            }
+            const productId = document.getElementById('orderService').value;
+            const message = document.getElementById('orderMessage').value.trim();
+            const fb = document.getElementById('orderFeedback');
+            if (!productId) {
+                fb.textContent = 'Please select a service.';
+                fb.style.color = '#dc3545';
+                return;
+            }
+            fb.textContent = '';
+
+            const btn = document.getElementById('placeOrderBtn');
+            btn.innerHTML = '<span class="spinner"></span> Placing...';
+            btn.disabled = true;
+
+            const order = await createOrder({
+                id: uid(),
+                customer_id: loggedInCustomer.id,
+                product_id: productId,
+                status: 'pending',
+                message: message,
+                created_at: new Date(),
+                updated_at: new Date()
+            });
+
+            btn.innerHTML = 'Place Order';
+            btn.disabled = false;
+
+            if (order) {
+                fb.textContent = '✅ Order placed successfully!';
+                fb.style.color = '#28a745';
+                document.getElementById('customerOrderForm').reset();
+                renderCustomerOrders();
+                updateCustomerStats();
+                showToast('Order placed!', 'success');
+                renderAdminDashboard();
+            }
+        });
+
+        // ====================================================================
+        // 11. CONTACT FORM
+        // ====================================================================
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('cname').value.trim();
+            const email = document.getElementById('cemail').value.trim();
+            const message = document.getElementById('cmessage').value.trim();
+            const fb = document.getElementById('formFeedback');
+            if (!name || !email || !message) {
+                fb.textContent = 'Please fill in all required fields.';
+                fb.style.color = '#dc3545';
+                return;
+            }
+            fb.textContent = '✅ Thank you! We\'ll get back to you shortly.';
+            fb.style.color = '#28a745';
+            setTimeout(() => { fb.textContent = ''; }, 5000);
+            showToast('Message sent!', 'success');
+            document.getElementById('contactForm').reset();
+        });
+
+        // ====================================================================
+        // 12. NAV, FAQ, SCROLL TOP
+        // ====================================================================
+        const hamburger = document.getElementById('hamburger');
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', function() {
+                const parent = this.closest('.faq-item');
+                const isActive = parent.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+                if (!isActive) parent.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) { e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' }); }
+            });
+        });
+
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) scrollBtn.classList.add('visible');
+            else scrollBtn.classList.remove('visible');
+        });
+        scrollBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        // ====================================================================
+        // 13. ADMIN LOGIN
+        // ====================================================================
+        function openAdminLogin() {
+            document.getElementById('adminLoginError').textContent = '';
+            document.getElementById('adminLoginError').classList.remove('show');
+            openOverlay('adminLoginOverlay');
+        }
+
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const u = document.getElementById('adminUsername').value.trim();
+            const p = document.getElementById('adminPassword').value.trim();
+            if (u === 'admin' && p === 'admin123') {
+                closeOverlay('adminLoginOverlay');
+                openAdminDashboard();
+                showToast('Welcome Admin!', 'success');
+            } else {
+                const err = document.getElementById('adminLoginError');
+                err.textContent = 'Invalid username or password. Use admin / admin123';
+                err.classList.add('show');
+            }
+        });
+
+        // ====================================================================
+        // 14. IMAGE UPLOAD SETUP
+        // ====================================================================
+        setupImageUpload('productImageInput', 'productImagePreview', 'productUploadPlaceholder', 'productRemoveImage',
+            'productImageArea');
+        setupImageUpload('slideImageInput', 'slideImagePreview', 'slideUploadPlaceholder', 'slideRemoveImage',
+            'slideImageArea');
+
+        // ====================================================================
+        // 15. INIT
+        // ====================================================================
+        async function init() {
+            try {
+                initSupabase();
+
+                // Test connection
+                const { error } = await supabase.from('products').select('id').limit(1);
+                if (error) {
+                    console.warn('⚠️ Supabase connection issue:', error);
+                    showToast(
+                        '⚠️ Supabase not configured. Please set SUPABASE_URL and SUPABASE_ANON_KEY in the script.',
+                        'error');
+                    allProducts = [];
+                    allSlides = [];
+                    allCustomers = [];
+                    allOrders = [];
+                } else {
+                    await fetchAllData();
+                }
+
+                // Check session
+                const saved = sessionStorage.getItem('dt_loggedInCustomer');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        const fresh = await findCustomerByEmail(parsed.email);
+                        if (fresh) loggedInCustomer = fresh;
+                        else loggedInCustomer = null;
+                    } catch (e) { loggedInCustomer = null; }
+                }
+
+                updatePublicViews();
+                renderAdminDashboard();
+
+                console.log('🚀 Dynamic Tech CRM · Supabase Backend');
+                console.log('👤 Admin: admin / admin123');
+                console.log('📦 ' + allProducts.length + ' products, ' + allSlides.length + ' slides, ' + allCustomers
+                    .length + ' customers, ' + allOrders.length + ' orders');
+            } catch (e) {
+                console.error('Init error:', e);
+                showToast('Failed to initialize. Check console.', 'error');
+            }
+        }
+
+        // ====================================================================
+        // 16. EXPOSE GLOBALS
+        // ====================================================================
+        window.openAdminLogin = openAdminLogin;
+        window.openCustomerRegister = openCustomerRegister;
+        window.openCustomerLogin = openCustomerLogin;
+        window.openCustomerDashboard = openCustomerDashboard;
+        window.openProductModal = openProductModal;
+        window.editProduct = editProduct;
+        window.deleteProductHandler = deleteProductHandler;
+        window.openSlideModal = openSlideModal;
+        window.editSlide = editSlide;
+        window.deleteSlideHandler = deleteSlideHandler;
+        window.deleteOrderHandler = deleteOrderHandler;
+        window.updateOrderStatusHandler = updateOrderStatusHandler;
+        window.filterProducts = filterProducts;
+        window.filterSlides = filterSlides;
+        window.filterCustomers = filterCustomers;
+        window.filterOrders = filterOrders;
+        window.adminLogout = adminLogout;
+        window.closeOverlay = closeOverlay;
+        window.openOverlay = openOverlay;
+        window.showToast = showToast;
+        window.closeProductModal = closeProductModal;
+        window.closeSlideModal = closeSlideModal;
+
+        // ====================================================================
+        // 17. START
+        // ====================================================================
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
