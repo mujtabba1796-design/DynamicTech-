@@ -2149,7 +2149,7 @@
     </div>
 
     <!-- ================================================================
-    JAVASCRIPT — FULL APP WITH SUPABASE BACKEND
+    JAVASCRIPT — FIXED & DEBUGGED
     ================================================================ -->
     <script>
         // ====================================================================
@@ -2181,12 +2181,16 @@
         }
 
         function openOverlay(id) {
-            document.getElementById(id).classList.add('active');
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeOverlay(id) {
-            document.getElementById(id).classList.remove('active');
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.remove('active');
             document.body.style.overflow = '';
         }
 
@@ -2224,9 +2228,10 @@
             }
         }
 
+        // FIXED: Use "slide_order" column instead of reserved keyword "order"
         async function fetchSlides() {
             try {
-                const { data, error } = await supabase.from('slides').select('*').order('order', { ascending: true });
+                const { data, error } = await supabase.from('slides').select('*').order('slide_order', { ascending: true });
                 if (error) throw error;
                 allSlides = data || [];
                 return allSlides;
@@ -2316,6 +2321,7 @@
         }
 
         // --- Slides ---
+        // FIXED: Use "slide_order" instead of "order"
         async function createSlide(slide) {
             try {
                 const { data, error } = await supabase.from('slides').insert([slide]).select();
@@ -2443,15 +2449,15 @@
                 return;
             }
             grid.innerHTML = allProducts.map(p => `
-                <div class="service-card">
-                    <div class="icon">${getCategoryIcon(p.category)}</div>
-                    <h3>${p.name}</h3>
-                    <p>${p.description || ''}</p>
-                    ${p.features && p.features.length ? `<ul class="features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
-                    ${p.image ? `<img src="${p.image}" class="service-image" alt="${p.name}" />` : ''}
-                    <button class="btn btn-primary btn-sm order-btn" onclick="openCustomerRegister()">Order Now</button>
-                </div>
-            `).join('');
+                    <div class="service-card">
+                        <div class="icon">${getCategoryIcon(p.category)}</div>
+                        <h3>${p.name}</h3>
+                        <p>${p.description || ''}</p>
+                        ${p.features && p.features.length ? `<ul class="features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
+                        ${p.image ? `<img src="${p.image}" class="service-image" alt="${p.name}" />` : ''}
+                        <button class="btn btn-primary btn-sm order-btn" onclick="openCustomerRegister()">Order Now</button>
+                    </div>
+                `).join('');
         }
 
         function updateContactDropdown() {
@@ -2462,31 +2468,31 @@
             if (val) sel.value = val;
         }
 
-        // ===== SLIDESHOW =====
+        // ===== SLIDESHOW (fixed: uses slide_order) =====
         function renderSlideshow() {
             const wrapper = document.getElementById('slidesWrapper');
             const dotsContainer = document.getElementById('slideDots');
-            const activeSlides = allSlides.filter(s => s.active).sort((a, b) => (a.order || 0) - (b.order || 0));
+            const activeSlides = allSlides.filter(s => s.active).sort((a, b) => (a.slide_order || 0) - (b.slide_order || 0));
 
             if (!activeSlides.length) {
                 wrapper.innerHTML = `
-                    <div class="slide-item active" style="background:var(--dark);display:flex;align-items:center;justify-content:center;">
-                        <div class="slide-content"><h3>Welcome to Dynamic Tech</h3><p>Innovative software solutions for your organization.</p></div>
-                    </div>
-                `;
+                        <div class="slide-item active" style="background:var(--dark);display:flex;align-items:center;justify-content:center;">
+                            <div class="slide-content"><h3>Welcome to Dynamic Tech</h3><p>Innovative software solutions for your organization.</p></div>
+                        </div>
+                    `;
                 dotsContainer.innerHTML = '';
                 return;
             }
 
             wrapper.innerHTML = activeSlides.map((s, i) => `
-                <div class="slide-item ${i === 0 ? 'active' : ''}" style="background-image: url('${s.image || ''}'); background-size: cover; background-position: center;">
-                    <div class="slide-content">
-                        <h3>${s.title}</h3>
-                        ${s.subtitle ? `<p>${s.subtitle}</p>` : ''}
-                        ${s.link ? `<a href="${s.link}" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">Learn More</a>` : ''}
+                    <div class="slide-item ${i === 0 ? 'active' : ''}" style="background-image: url('${s.image || ''}'); background-size: cover; background-position: center;">
+                        <div class="slide-content">
+                            <h3>${s.title}</h3>
+                            ${s.subtitle ? `<p>${s.subtitle}</p>` : ''}
+                            ${s.link ? `<a href="${s.link}" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">Learn More</a>` : ''}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
 
             dotsContainer.innerHTML = activeSlides.map((_, i) =>
                 `<button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i+1}"></button>`
@@ -2595,11 +2601,11 @@
                 const cust = allCustomers.find(c => c.id === o.customer_id);
                 const prod = allProducts.find(p => p.id === o.product_id);
                 return `<tr>
-                    <td>${cust ? cust.full_name : 'Unknown'}</td>
-                    <td>${prod ? prod.name : 'Unknown'}</td>
-                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
-                    <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                </tr>`;
+                        <td>${cust ? cust.full_name : 'Unknown'}</td>
+                        <td>${prod ? prod.name : 'Unknown'}</td>
+                        <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                    </tr>`;
             }).join('');
         }
 
@@ -2613,23 +2619,23 @@
                 return;
             }
             tbody.innerHTML = list.map(p => `
-                <tr>
-                    <td>${p.image ? `<img src="${p.image}" class="img-preview-thumb" alt="${p.name}" />` : '📄'}</td>
-                    <td><strong>${p.name}</strong><br><small style="color:var(--gray-500);">${p.category}</small></td>
-                    <td>${p.category}</td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn btn-primary btn-sm" onclick="editProduct('${p.id}')">✏️</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteProductHandler('${p.id}')">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+                    <tr>
+                        <td>${p.image ? `<img src="${p.image}" class="img-preview-thumb" alt="${p.name}" />` : '📄'}</td>
+                        <td><strong>${p.name}</strong><br><small style="color:var(--gray-500);">${p.category}</small></td>
+                        <td>${p.category}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn btn-primary btn-sm" onclick="editProduct('${p.id}')">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteProductHandler('${p.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
         }
 
         function filterProducts() { renderProductsTable(document.getElementById('productSearch').value); }
 
-        // ===== SLIDES TABLE =====
+        // ===== SLIDES TABLE (fixed: uses slide_order) =====
         function renderSlidesTable(filter = '') {
             const tbody = document.getElementById('slidesTableBody');
             let list = allSlides;
@@ -2639,20 +2645,20 @@
                 return;
             }
             tbody.innerHTML = list.map(s => `
-                <tr>
-                    <td>${s.image ? `<img src="${s.image}" class="img-preview-thumb" alt="${s.title}" />` : '📄'}</td>
-                    <td><strong>${s.title}</strong></td>
-                    <td>${s.subtitle || '—'}</td>
-                    <td><span class="status-badge ${s.active ? 'active' : 'inactive'}">${s.active ? 'Active' : 'Inactive'}</span></td>
-                    <td>${s.order || 0}</td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn btn-primary btn-sm" onclick="editSlide('${s.id}')">✏️</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteSlideHandler('${s.id}')">🗑️</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+                    <tr>
+                        <td>${s.image ? `<img src="${s.image}" class="img-preview-thumb" alt="${s.title}" />` : '📄'}</td>
+                        <td><strong>${s.title}</strong></td>
+                        <td>${s.subtitle || '—'}</td>
+                        <td><span class="status-badge ${s.active ? 'active' : 'inactive'}">${s.active ? 'Active' : 'Inactive'}</span></td>
+                        <td>${s.slide_order || 0}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn btn-primary btn-sm" onclick="editSlide('${s.id}')">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteSlideHandler('${s.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
         }
 
         function filterSlides() { renderSlidesTable(document.getElementById('slideSearch').value); }
@@ -2670,12 +2676,12 @@
             tbody.innerHTML = list.map(c => {
                 const orderCount = allOrders.filter(o => o.customer_id === c.id).length;
                 return `<tr>
-                    <td><strong>${c.full_name}</strong></td>
-                    <td>${c.email}</td>
-                    <td>${c.phone || '—'}</td>
-                    <td>${c.company || '—'}</td>
-                    <td>${orderCount}</td>
-                </tr>`;
+                        <td><strong>${c.full_name}</strong></td>
+                        <td>${c.email}</td>
+                        <td>${c.phone || '—'}</td>
+                        <td>${c.company || '—'}</td>
+                        <td>${orderCount}</td>
+                    </tr>`;
             }).join('');
         }
 
@@ -2700,23 +2706,23 @@
                 const cust = allCustomers.find(c => c.id === o.customer_id);
                 const prod = allProducts.find(p => p.id === o.product_id);
                 return `<tr>
-                    <td>${cust ? cust.full_name : 'Unknown'}</td>
-                    <td>${prod ? prod.name : 'Unknown'}</td>
-                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
-                    <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
-                    <td>
-                        <div class="actions">
-                            <select onchange="updateOrderStatusHandler('${o.id}', this.value)" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--gray-200);font-size:0.75rem;background:var(--white);">
-                                <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
-                                <option value="in-progress" ${o.status==='in-progress'?'selected':''}>In Progress</option>
-                                <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
-                                <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
-                            </select>
-                            <button class="btn btn-danger btn-sm" onclick="deleteOrderHandler('${o.id}')">🗑️</button>
-                        </div>
-                    </td>
-                </tr>`;
+                        <td>${cust ? cust.full_name : 'Unknown'}</td>
+                        <td>${prod ? prod.name : 'Unknown'}</td>
+                        <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
+                        <td>
+                            <div class="actions">
+                                <select onchange="updateOrderStatusHandler('${o.id}', this.value)" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--gray-200);font-size:0.75rem;background:var(--white);">
+                                    <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+                                    <option value="in-progress" ${o.status==='in-progress'?'selected':''}>In Progress</option>
+                                    <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
+                                    <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+                                </select>
+                                <button class="btn btn-danger btn-sm" onclick="deleteOrderHandler('${o.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>`;
             }).join('');
         }
 
@@ -2802,13 +2808,13 @@
         function closeProductModal() { closeOverlay('productModalOverlay');
             document.getElementById('productImageInput').value = ''; }
 
-        // --- Slide ---
+        // --- Slide (fixed: uses slide_order) ---
         async function openSlideModal(data = null) {
             document.getElementById('slideModalTitle').innerHTML = data ? 'Edit <span>Slide</span>' : 'Add <span>Slide</span>';
             document.getElementById('slideTitle').value = data ? data.title : '';
             document.getElementById('slideSubtitle').value = data ? data.subtitle : '';
             document.getElementById('slideLink').value = data ? data.link : '';
-            document.getElementById('slideOrder').value = data ? data.order : 0;
+            document.getElementById('slideOrder').value = data ? data.slide_order || 0 : 0;
             document.getElementById('slideActive').checked = data ? data.active : true;
             document.getElementById('slideImagePreview').src = data && data.image ? data.image : '';
             document.getElementById('slideImagePreview').style.display = data && data.image ? 'block' : 'none';
@@ -2845,7 +2851,7 @@
             const title = document.getElementById('slideTitle').value.trim();
             const subtitle = document.getElementById('slideSubtitle').value.trim();
             const link = document.getElementById('slideLink').value.trim();
-            const order = parseInt(document.getElementById('slideOrder').value) || 0;
+            const slide_order = parseInt(document.getElementById('slideOrder').value) || 0;
             const active = document.getElementById('slideActive').checked;
             const image = document.getElementById('slideImagePreview').src || '';
 
@@ -2868,9 +2874,9 @@
             btn.disabled = true;
 
             if (editId) {
-                await updateSlide(editId, { title, subtitle, link, order, active, image });
+                await updateSlide(editId, { title, subtitle, link, slide_order, active, image });
             } else {
-                await createSlide({ id: uid(), title, subtitle, link, order, active, image, created_at: new Date() });
+                await createSlide({ id: uid(), title, subtitle, link, slide_order, active, image, created_at: new Date() });
             }
             btn.innerHTML = 'Save Slide';
             btn.disabled = false;
@@ -2905,7 +2911,7 @@
         }
 
         // ====================================================================
-        // 9. IMAGE UPLOAD HELPER
+        // 9. IMAGE UPLOAD HELPER (fixed: better error handling)
         // ====================================================================
         function setupImageUpload(inputId, previewId, placeholderId, removeBtnId, areaId) {
             const input = document.getElementById(inputId);
@@ -2913,6 +2919,11 @@
             const placeholder = document.getElementById(placeholderId);
             const removeBtn = document.getElementById(removeBtnId);
             const area = document.getElementById(areaId);
+
+            if (!input || !preview || !placeholder || !removeBtn || !area) {
+                console.warn('Image upload setup failed: missing elements for', inputId);
+                return;
+            }
 
             input.addEventListener('change', function(e) {
                 const file = e.target.files[0];
@@ -2928,6 +2939,9 @@
                     preview.style.display = 'block';
                     placeholder.style.display = 'none';
                     removeBtn.classList.add('show');
+                };
+                reader.onerror = function() {
+                    showToast('Failed to read image file.', 'error');
                 };
                 reader.readAsDataURL(file);
             });
@@ -3025,7 +3039,9 @@
             if (newCust) {
                 closeOverlay('customerRegisterOverlay');
                 showToast('Registration successful! Please login.', 'success');
+                // Auto-login after registration
                 loggedInCustomer = newCust;
+                sessionStorage.setItem('dt_loggedInCustomer', JSON.stringify(newCust));
                 openCustomerDashboard();
             }
         });
@@ -3052,6 +3068,7 @@
             err.classList.remove('show');
 
             loggedInCustomer = cust;
+            sessionStorage.setItem('dt_loggedInCustomer', JSON.stringify(cust));
             closeOverlay('customerLoginOverlay');
             showToast('Welcome back, ' + cust.full_name + '!', 'success');
             openCustomerDashboard();
@@ -3063,7 +3080,7 @@
                 openCustomerLogin();
                 return;
             }
-            // Refresh orders
+            // Refresh orders for the customer
             await fetchOrders();
             document.getElementById('custDashboardGreeting').textContent = 'Welcome back, ' + loggedInCustomer.full_name + '!';
             const sel = document.getElementById('orderService');
@@ -3091,11 +3108,11 @@
             tbody.innerHTML = custOrders.map(o => {
                 const prod = allProducts.find(p => p.id === o.product_id);
                 return `<tr>
-                    <td>${prod ? prod.name : 'Unknown'}</td>
-                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
-                    <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
-                </tr>`;
+                        <td>${prod ? prod.name : 'Unknown'}</td>
+                        <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
+                    </tr>`;
             }).join('');
         }
 
@@ -3168,14 +3185,16 @@
         // 12. NAV, FAQ, SCROLL TOP
         // ====================================================================
         const hamburger = document.getElementById('hamburger');
-        hamburger.addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.getElementById('navLinks').classList.toggle('open');
-        });
+        if (hamburger) {
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+        }
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 document.getElementById('navLinks').classList.remove('open');
-                hamburger.classList.remove('active');
+                if (hamburger) hamburger.classList.remove('active');
             });
         });
 
@@ -3249,7 +3268,7 @@
                 if (error) {
                     console.warn('⚠️ Supabase connection issue:', error);
                     showToast(
-                        '⚠️ Supabase not configured. Please set SUPABASE_URL and SUPABASE_ANON_KEY in the script.',
+                        '⚠️ Supabase not configured. Please check your URL and key.',
                         'error');
                     allProducts = [];
                     allSlides = [];
@@ -3314,5 +3333,7 @@
         // ====================================================================
         document.addEventListener('DOMContentLoaded', init);
     </script>
+
+    
 </body>
-</html>
+    </html>
