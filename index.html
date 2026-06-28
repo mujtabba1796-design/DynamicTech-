@@ -7,9 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
     <style>
-        /* ===== CSS VARIABLES & RESET ===== */
+        /* ================================================================
+           CSS VARIABLES & RESET
+           ================================================================ */
         :root {
             --primary: #E63946;
             --primary-dark: #c62835;
@@ -70,7 +73,9 @@
             padding: 0 1.5rem;
         }
 
-        /* ===== BUTTONS ===== */
+        /* ================================================================
+           BUTTONS
+           ================================================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -138,7 +143,9 @@
             transform: translateY(-2px);
         }
 
-        /* ===== HEADER ===== */
+        /* ================================================================
+           HEADER
+           ================================================================ */
         header {
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(12px);
@@ -235,7 +242,9 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* ===== HERO ===== */
+        /* ================================================================
+           HERO WITH SLIDESHOW
+           ================================================================ */
         .hero {
             background: linear-gradient(145deg, var(--black) 0%, var(--dark) 100%);
             color: var(--white);
@@ -279,7 +288,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== SLIDESHOW ===== */
         .slideshow-container {
             position: relative;
             width: 100%;
@@ -334,6 +342,7 @@
             margin-top: 0.5rem;
             display: inline-block;
         }
+
         .slideshow-dots {
             position: absolute;
             bottom: 10px;
@@ -360,6 +369,7 @@
         .slideshow-dots .dot:hover {
             background: rgba(255, 255, 255, 0.8);
         }
+
         .slideshow-arrow {
             position: absolute;
             top: 50%;
@@ -385,7 +395,9 @@
             right: 10px;
         }
 
-        /* ===== SECTIONS ===== */
+        /* ================================================================
+           SECTIONS
+           ================================================================ */
         section {
             padding: 5rem 0;
         }
@@ -430,6 +442,7 @@
             font-size: 1.05rem;
         }
 
+        /* About */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -498,6 +511,7 @@
             backdrop-filter: blur(4px);
         }
 
+        /* Services */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -574,6 +588,7 @@
             width: 100%;
         }
 
+        /* Why Choose */
         .why-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -606,6 +621,7 @@
             color: var(--gray-500);
         }
 
+        /* Testimonials */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -654,6 +670,7 @@
             color: var(--gray-500);
         }
 
+        /* CRM Preview */
         .crm-preview {
             background: var(--black);
             color: var(--white);
@@ -717,6 +734,7 @@
             color: rgba(255, 255, 255, 0.9);
         }
 
+        /* Contact */
         .contact-wrap {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -807,6 +825,58 @@
             resize: vertical;
         }
 
+        /* ================================================================
+           ENHANCED FAQ
+           ================================================================ */
+        .faq-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+        .faq-controls .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            background: var(--white);
+            transition: var(--transition);
+        }
+        .faq-controls .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
+        }
+        .faq-categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .faq-categories button {
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .faq-categories button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .faq-categories button.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
         .faq-list {
             max-width: 800px;
             margin: 0 auto;
@@ -861,8 +931,182 @@
         .faq-item.active .faq-answer {
             display: block;
         }
+        .faq-item .helpful {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .faq-item .helpful button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: var(--transition);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .faq-item .helpful button:hover {
+            color: var(--primary);
+        }
+        .faq-item .helpful button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .faq-item .helpful button.voted {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .faq-item .helpful .count {
+            font-weight: 500;
+        }
 
-        /* ===== FOOTER ===== */
+        /* ================================================================
+           CHAT WIDGET
+           ================================================================ */
+        .chat-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1500;
+            display: none;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .chat-widget.show {
+            display: flex;
+        }
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            box-shadow: var(--shadow-lg);
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .chat-toggle:hover {
+            transform: scale(1.05);
+        }
+        .chat-toggle .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .chat-panel {
+            width: 360px;
+            max-width: 90vw;
+            max-height: 500px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            margin-bottom: 0.8rem;
+            border: 1px solid var(--gray-200);
+        }
+        .chat-panel.open {
+            display: flex;
+        }
+        .chat-panel .chat-header {
+            padding: 1rem 1.2rem;
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-panel .chat-header .close-chat {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        .chat-panel .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            max-height: 300px;
+            background: var(--gray-50);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .chat-panel .chat-messages .msg {
+            max-width: 80%;
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            word-wrap: break-word;
+        }
+        .chat-panel .chat-messages .msg.sent {
+            align-self: flex-end;
+            background: var(--primary);
+            color: var(--white);
+        }
+        .chat-panel .chat-messages .msg.received {
+            align-self: flex-start;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+        }
+        .chat-panel .chat-messages .msg .time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 0.2rem;
+            display: block;
+        }
+        .chat-panel .chat-input {
+            display: flex;
+            padding: 0.8rem;
+            gap: 0.5rem;
+            border-top: 1px solid var(--gray-200);
+            background: var(--white);
+        }
+        .chat-panel .chat-input input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .chat-panel .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .chat-panel .chat-input button {
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* ================================================================
+           FOOTER
+           ================================================================ */
         footer {
             background: var(--black);
             color: rgba(255, 255, 255, 0.7);
@@ -944,7 +1188,9 @@
             color: var(--primary);
         }
 
-        /* ===== OVERLAYS & MODALS ===== */
+        /* ================================================================
+           OVERLAYS / MODALS
+           ================================================================ */
         .overlay {
             display: none;
             position: fixed;
@@ -1085,7 +1331,7 @@
             display: block;
         }
 
-        /* ===== IMAGE UPLOAD ===== */
+        /* Image upload */
         .image-upload-area {
             border: 2px dashed var(--gray-300);
             border-radius: var(--radius-sm);
@@ -1146,7 +1392,9 @@
             display: flex;
         }
 
-        /* ===== ADMIN DASHBOARD ===== */
+        /* ================================================================
+           ADMIN DASHBOARD
+           ================================================================ */
         .admin-dashboard {
             display: none;
             position: fixed;
@@ -1254,6 +1502,7 @@
         .admin-main .page-header h2 span {
             color: var(--primary);
         }
+
         .admin-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1286,6 +1535,7 @@
             color: var(--gray-500);
             margin-top: 0.2rem;
         }
+
         .admin-table-wrap {
             background: var(--white);
             border-radius: var(--radius);
@@ -1405,7 +1655,88 @@
             box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
         }
 
-        /* ===== TOAST & SCROLL TOP ===== */
+        /* Admin Chat */
+        .chat-conversation {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.8rem;
+            overflow: hidden;
+        }
+        .chat-conversation .conv-header {
+            background: var(--gray-100);
+            padding: 0.6rem 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        .chat-conversation .conv-header .badge-unread {
+            background: var(--primary);
+            color: white;
+            border-radius: 30px;
+            padding: 0.1rem 0.6rem;
+            font-size: 0.7rem;
+        }
+        .chat-conversation .conv-messages {
+            padding: 0.8rem 1rem;
+            background: var(--white);
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .chat-conversation .conv-messages.open {
+            display: flex;
+        }
+        .chat-conversation .conv-messages .msg {
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .chat-conversation .conv-messages .msg.admin {
+            background: var(--primary-light);
+            align-self: flex-end;
+        }
+        .chat-conversation .conv-messages .msg.customer {
+            background: var(--gray-100);
+            align-self: flex-start;
+        }
+        .chat-conversation .conv-messages .msg .time {
+            font-size: 0.65rem;
+            opacity: 0.6;
+            display: block;
+            margin-top: 0.1rem;
+        }
+        .chat-conversation .conv-reply {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-top: 1px solid var(--gray-200);
+            background: var(--gray-50);
+        }
+        .chat-conversation .conv-reply input {
+            flex: 1;
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+        .chat-conversation .conv-reply input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .chat-conversation .conv-reply button {
+            padding: 0.3rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* ================================================================
+           TOAST & SCROLL TOP
+           ================================================================ */
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -1475,8 +1806,10 @@
             box-shadow: 0 8px 32px rgba(230, 57, 70, 0.4);
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width:1024px) {
+        /* ================================================================
+           RESPONSIVE
+           ================================================================ */
+        @media (max-width: 1024px) {
             .hero .container {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -1535,7 +1868,7 @@
                 padding: 1.2rem;
             }
         }
-        @media (max-width:768px) {
+        @media (max-width: 768px) {
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -1558,9 +1891,6 @@
             }
             .hero-content h1 {
                 font-size: 2.4rem;
-            }
-            .slideshow-container {
-                max-width: 100%;
             }
             .section-title h2 {
                 font-size: 1.8rem;
@@ -1635,6 +1965,23 @@
                 flex-direction: column;
                 align-items: stretch;
             }
+            .chat-panel {
+                width: 100%;
+                max-height: 400px;
+                right: 0;
+                bottom: 0;
+                border-radius: 0;
+            }
+            .chat-widget {
+                right: 0;
+                bottom: 0;
+            }
+            .chat-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
+                margin: 0.5rem;
+            }
             .scroll-top {
                 bottom: 1rem;
                 left: 1rem;
@@ -1649,8 +1996,15 @@
                 max-width: unset;
                 padding: 0.8rem 1.2rem;
             }
+            .faq-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .faq-categories {
+                justify-content: center;
+            }
         }
-        @media (max-width:480px) {
+        @media (max-width: 480px) {
             .hero-content h1 {
                 font-size: 2rem;
             }
@@ -1698,35 +2052,41 @@
             background: var(--primary);
         }
 
-        /* loading spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s ease infinite;
+        /* Clean Admin Login - no extra config/signup */
+        .admin-login-simple .supabase-config,
+        .admin-login-simple #adminSignupForm,
+        .admin-login-simple .switch-link {
+            display: none !important;
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .admin-login-simple .modal {
+            max-width: 420px;
         }
-        .btn.loading .spinner {
-            width: 18px;
-            height: 18px;
-            border-width: 2px;
+        .admin-login-simple .modal h2 {
+            text-align: center;
+        }
+        .admin-login-simple .modal .subtitle {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .admin-login-simple .btn {
+            width: 100%;
+        }
+        .admin-login-simple .form-group {
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== TOAST & SCROLL TOP ===== -->
+    <!-- ================================================================
+    TOAST & SCROLL TOP
+    ================================================================ -->
     <div class="toast" id="toast"></div>
     <button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
 
-    <!-- ===== HEADER ===== -->
+    <!-- ================================================================
+    HEADER
+    ================================================================ -->
     <header id="mainHeader">
         <div class="nav-container">
             <a href="#" class="logo"><span class="mark">DT</span>Dynamic <span>Tech</span></a>
@@ -1743,7 +2103,9 @@
         </div>
     </header>
 
-    <!-- ===== HERO ===== -->
+    <!-- ================================================================
+    HERO WITH SLIDESHOW
+    ================================================================ -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
@@ -1766,7 +2128,9 @@
         </div>
     </section>
 
-    <!-- ===== ABOUT ===== -->
+    <!-- ================================================================
+    ABOUT
+    ================================================================ -->
     <section id="about" class="section-light">
         <div class="container">
             <div class="about-grid">
@@ -1776,9 +2140,9 @@
                     <p>Dynamic Tech, a subsidiary of Arrahmah Telecommunications, is a leading software development company delivering innovative solutions to schools, healthcare institutions, businesses, government agencies, and NGOs.</p>
                     <p>Founded by <strong>Abduljalal Mujtaba Abubakar</strong>, we combine technical excellence with a deep understanding of the African market to build scalable, secure, and impactful technology.</p>
                     <div class="about-stats">
-                        <div class="stat"><div class="number" id="statProjects">50+</div><div class="label">Projects</div></div>
-                        <div class="stat"><div class="number" id="statClients">30+</div><div class="label">Clients</div></div>
-                        <div class="stat"><div class="number" id="statYears">5</div><div class="label">Years</div></div>
+                        <div class="stat"><div class="number">50+</div><div class="label">Projects</div></div>
+                        <div class="stat"><div class="number">30+</div><div class="label">Clients</div></div>
+                        <div class="stat"><div class="number">5</div><div class="label">Years</div></div>
                     </div>
                 </div>
                 <div class="about-image"></div>
@@ -1786,7 +2150,9 @@
         </div>
     </section>
 
-    <!-- ===== SERVICES ===== -->
+    <!-- ================================================================
+    SERVICES
+    ================================================================ -->
     <section id="services" class="section-gray">
         <div class="container">
             <div class="section-title">
@@ -1798,7 +2164,9 @@
         </div>
     </section>
 
-    <!-- ===== WHY US ===== -->
+    <!-- ================================================================
+    WHY CHOOSE
+    ================================================================ -->
     <section class="section-light">
         <div class="container">
             <div class="section-title"><span class="tag">Why Dynamic Tech</span><h2>Why <span>Choose</span> Us</h2></div>
@@ -1811,7 +2179,9 @@
         </div>
     </section>
 
-    <!-- ===== TESTIMONIALS ===== -->
+    <!-- ================================================================
+    TESTIMONIALS
+    ================================================================ -->
     <section class="section-gray">
         <div class="container">
             <div class="section-title"><span class="tag">Testimonials</span><h2>Client <span>Success</span> Stories</h2></div>
@@ -1823,7 +2193,9 @@
         </div>
     </section>
 
-    <!-- ===== CRM ===== -->
+    <!-- ================================================================
+    CRM PREVIEW
+    ================================================================ -->
     <section id="crm" class="section-light">
         <div class="container">
             <div class="section-title"><span class="tag">CRM Portal</span><h2>Customer <span>Relationship</span> Management</h2><p>Empower your team with a comprehensive CRM platform for lead management, support, and analytics.</p></div>
@@ -1844,7 +2216,9 @@
         </div>
     </section>
 
-    <!-- ===== CONTACT ===== -->
+    <!-- ================================================================
+    CONTACT
+    ================================================================ -->
     <section id="contact" class="section-gray">
         <div class="container">
             <div class="section-title"><span class="tag">Get in Touch</span><h2>Let's <span>Connect</span></h2><p>Reach out for consultations, inquiries, or to learn how we can help you grow.</p></div>
@@ -1870,21 +2244,36 @@
         </div>
     </section>
 
-    <!-- ===== FAQ ===== -->
+    <!-- ================================================================
+    ENHANCED FAQ
+    ================================================================ -->
     <section id="faq" class="section-light">
         <div class="container">
-            <div class="section-title"><span class="tag">Support Center</span><h2>Frequently Asked <span>Questions</span></h2></div>
-            <div class="faq-list">
-                <div class="faq-item active"><button class="faq-question">What industries does Dynamic Tech serve?<span class="arrow">▾</span></button><div class="faq-answer">We serve education, healthcare, business, government, and NGOs across Nigeria and Africa.</div></div>
-                <div class="faq-item"><button class="faq-question">How do I request a consultation?<span class="arrow">▾</span></button><div class="faq-answer">You can use the contact form above, call us directly at 08142924297, or send an email to mujtabba1796@gmail.com.</div></div>
-                <div class="faq-item"><button class="faq-question">Do you offer ongoing support after deployment?<span class="arrow">▾</span></button><div class="faq-answer">Yes, we provide comprehensive technical support and maintenance packages tailored to your needs.</div></div>
-                <div class="faq-item"><button class="faq-question">Can you build custom software for my organization?<span class="arrow">▾</span></button><div class="faq-answer">Absolutely. We specialize in custom web applications built to your exact specifications and requirements.</div></div>
-                <div class="faq-item"><button class="faq-question">Is my data secure with Dynamic Tech?<span class="arrow">▾</span></button><div class="faq-answer">Yes, we implement enterprise-grade security measures, data encryption, and comply with best practices to protect your information.</div></div>
+            <div class="section-title">
+                <span class="tag">Support Center</span>
+                <h2>Frequently Asked <span>Questions</span></h2>
+                <p>Find answers to common questions. Can't find what you're looking for? <a href="#contact" style="color:var(--primary);font-weight:600;">Contact us</a></p>
             </div>
+
+            <div class="faq-controls">
+                <input class="search-box" id="faqSearch" placeholder="Search FAQ..." oninput="filterFAQ()" />
+                <div class="faq-categories" id="faqCategories">
+                    <button class="active" data-cat="all">All</button>
+                    <button data-cat="general">General</button>
+                    <button data-cat="technical">Technical</button>
+                    <button data-cat="billing">Billing</button>
+                    <button data-cat="support">Support</button>
+                    <button data-cat="security">Security</button>
+                </div>
+            </div>
+
+            <div class="faq-list" id="faqList"></div>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- ================================================================
+    FOOTER
+    ================================================================ -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -1897,20 +2286,52 @@
         </div>
     </footer>
 
-    <!-- ===== OVERLAYS ===== -->
-    <!-- Admin Login -->
-    <div class="overlay" id="adminLoginOverlay">
+    <!-- ================================================================
+    CHAT WIDGET
+    ================================================================ -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-panel" id="chatPanel">
+            <div class="chat-header">
+                <span>💬 Support Chat</span>
+                <button class="close-chat" id="closeChat">✕</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div style="text-align:center;color:var(--gray-500);padding:1rem 0;">No messages yet. Start a conversation!</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type your message..." />
+                <button class="btn btn-primary btn-sm" id="sendChat">Send</button>
+            </div>
+        </div>
+        <button class="chat-toggle" id="chatToggle">
+            💬
+            <span class="badge" id="chatBadge" style="display:none;">0</span>
+        </button>
+    </div>
+
+    <!-- ================================================================
+    OVERLAYS
+    ================================================================ -->
+
+    <!-- Admin Login - Clean, simple, no config/signup -->
+    <div class="overlay admin-login-simple" id="adminLoginOverlay">
         <div class="modal">
             <button class="close-btn" onclick="closeOverlay('adminLoginOverlay')">&times;</button>
             <h2>Admin <span>Login</span></h2>
-            <p class="subtitle">Enter your credentials to access the dashboard.</p>
+            <p class="subtitle">Sign in to manage your dashboard.</p>
+
             <form id="adminLoginForm">
-                <div class="form-group"><label for="adminUsername">Username</label><input type="text" id="adminUsername" placeholder="admin" value="admin" /></div>
-                <div class="form-group"><label for="adminPassword">Password</label><input type="password" id="adminPassword" placeholder="••••••••" value="admin123" /></div>
+                <div class="form-group">
+                    <label for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" placeholder="admin@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="••••••••" required />
+                </div>
                 <div id="adminLoginError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-bottom:0.5rem;"></div>
-                <button type="submit" class="btn btn-primary" id="adminLoginBtn">Login</button>
+                <button type="submit" class="btn btn-primary">Sign In</button>
             </form>
-            <div class="switch-link">Demo: <strong>admin</strong> / <strong>admin123</strong></div>
         </div>
     </div>
 
@@ -1934,7 +2355,7 @@
                     <div class="form-group"><label for="regConfirm">Confirm Password *</label><input type="password" id="regConfirm" placeholder="Confirm password" required /></div>
                 </div>
                 <div id="regError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-bottom:0.5rem;"></div>
-                <button type="submit" class="btn btn-primary" id="regBtn">Register</button>
+                <button type="submit" class="btn btn-primary">Register</button>
             </form>
             <div class="switch-link">Already have an account? <a onclick="closeOverlay('customerRegisterOverlay');openCustomerLogin();">Login here</a></div>
         </div>
@@ -1950,7 +2371,7 @@
                 <div class="form-group"><label for="custLoginEmail">Email</label><input type="email" id="custLoginEmail" placeholder="john@example.com" required /></div>
                 <div class="form-group"><label for="custLoginPassword">Password</label><input type="password" id="custLoginPassword" placeholder="••••••••" required /></div>
                 <div id="custLoginError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-bottom:0.5rem;"></div>
-                <button type="submit" class="btn btn-primary" id="custLoginBtn">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
             </form>
             <div class="switch-link">Don't have an account? <a onclick="closeOverlay('customerLoginOverlay');openCustomerRegister();">Register here</a></div>
         </div>
@@ -1978,20 +2399,22 @@
                     <div class="form-group"><label for="orderService">Select Service *</label><select id="orderService" required><option value="">Choose a service...</option></select></div>
                     <div class="form-group"><label for="orderMessage">Additional Details</label><textarea id="orderMessage" placeholder="Tell us more..." style="min-height:60px;"></textarea></div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:auto;padding:0.5rem 2rem;" id="placeOrderBtn">Place Order</button>
+                <button type="submit" class="btn btn-primary" style="width:auto;padding:0.5rem 2rem;">Place Order</button>
                 <span id="orderFeedback" style="margin-left:1rem;font-size:0.9rem;color:var(--gray-500);"></span>
             </form>
             <h4 style="margin-bottom:0.8rem;">My Orders</h4>
             <div class="admin-table-wrap">
                 <table>
                     <thead><tr><th>Service</th><th>Status</th><th>Date</th><th>Message</th></tr></thead>
-                    <tbody id="custOrdersTableBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">Loading orders...</td></tr></tbody>
+                    <tbody id="custOrdersTableBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No orders yet.</td></tr></tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- ===== ADMIN DASHBOARD ===== -->
+    <!-- ================================================================
+    ADMIN DASHBOARD
+    ================================================================ -->
     <div class="admin-dashboard" id="adminDashboard">
         <div class="admin-sidebar">
             <a href="#" class="logo"><span class="mark">DT</span>Admin</a>
@@ -2000,6 +2423,7 @@
             <button class="nav-item" data-tab="slides"><span class="icon">🖼️</span> Slides</button>
             <button class="nav-item" data-tab="customers"><span class="icon">👥</span> Customers</button>
             <button class="nav-item" data-tab="orders"><span class="icon">📋</span> Orders</button>
+            <button class="nav-item" data-tab="chat"><span class="icon">💬</span> Chat</button>
             <div class="nav-divider"></div>
             <button class="logout-btn" onclick="adminLogout()">🚪 Logout</button>
         </div>
@@ -2009,14 +2433,14 @@
                 <div class="page-header"><h2>Dashboard <span>Overview</span></h2></div>
                 <div class="admin-stats" id="adminStats">
                     <div class="admin-stat"><div class="number" id="statProducts">0</div><div class="label">Products</div></div>
-                    <div class="admin-stat"><div class="number" id="statSlides">0</div><div class="label">Slides</div></div>
+                    <div class="admin-stat"><div class="number" id="statSlides">0</div><div class="label">Active Slides</div></div>
                     <div class="admin-stat"><div class="number" id="statCustomers">0</div><div class="label">Customers</div></div>
                     <div class="admin-stat"><div class="number" id="statOrders">0</div><div class="label">Orders</div></div>
                 </div>
                 <div style="background:var(--white);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);border:1px solid var(--gray-200);">
                     <h4 style="margin-bottom:0.5rem;">Recent Orders</h4>
                     <div class="admin-table-wrap" style="box-shadow:none;padding:0;border:none;">
-                        <table><thead><tr><th>Customer</th><th>Service</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentOrdersBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">Loading orders...</td></tr></tbody></table>
+                        <table><thead><tr><th>Customer</th><th>Service</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentOrdersBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No orders yet.</td></tr></tbody></table>
                     </div>
                 </div>
             </div>
@@ -2033,7 +2457,7 @@
                 <div class="admin-table-wrap">
                     <table>
                         <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Actions</th></tr></thead>
-                        <tbody id="productsTableBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">Loading products...</td></tr></tbody>
+                        <tbody id="productsTableBody"><tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No products added yet.</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -2050,7 +2474,7 @@
                 <div class="admin-table-wrap">
                     <table>
                         <thead><tr><th>Image</th><th>Title</th><th>Subtitle</th><th>Active</th><th>Order</th><th>Actions</th></tr></thead>
-                        <tbody id="slidesTableBody"><tr><td colspan="6" style="text-align:center;color:var(--gray-500);">Loading slides...</td></tr></tbody>
+                        <tbody id="slidesTableBody"><tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No slides added yet.</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -2064,7 +2488,7 @@
                 <div class="admin-table-wrap">
                     <table>
                         <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Company</th><th>Orders</th></tr></thead>
-                        <tbody id="customersTableBody"><tr><td colspan="5" style="text-align:center;color:var(--gray-500);">Loading customers...</td></tr></tbody>
+                        <tbody id="customersTableBody"><tr><td colspan="5" style="text-align:center;color:var(--gray-500);">No customers yet.</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -2085,14 +2509,22 @@
                 <div class="admin-table-wrap">
                     <table>
                         <thead><tr><th>Customer</th><th>Service</th><th>Status</th><th>Date</th><th>Message</th><th>Actions</th></tr></thead>
-                        <tbody id="ordersTableBody"><tr><td colspan="6" style="text-align:center;color:var(--gray-500);">Loading orders...</td></tr></tbody>
+                        <tbody id="ordersTableBody"><tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No orders yet.</td></tr></tbody>
                     </table>
                 </div>
+            </div>
+
+            <!-- Chat -->
+            <div id="tab-chat" class="admin-tab" style="display:none;">
+                <div class="page-header"><h2>Customer <span>Chat</span></h2></div>
+                <div id="adminChatContainer"><p style="text-align:center;color:var(--gray-500);padding:2rem 0;">No customer messages yet.</p></div>
             </div>
         </div>
     </div>
 
-    <!-- ===== PRODUCT MODAL ===== -->
+    <!-- ================================================================
+    PRODUCT MODAL
+    ================================================================ -->
     <div class="overlay" id="productModalOverlay">
         <div class="modal">
             <button class="close-btn" onclick="closeProductModal()">&times;</button>
@@ -2112,13 +2544,15 @@
                         <button type="button" class="remove-img-btn" id="productRemoveImage">✕</button>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" id="productSubmitBtn">Save Product</button>
+                <button type="submit" class="btn btn-primary">Save Product</button>
                 <div id="productFormError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-top:0.5rem;"></div>
             </form>
         </div>
     </div>
 
-    <!-- ===== SLIDE MODAL ===== -->
+    <!-- ================================================================
+    SLIDE MODAL
+    ================================================================ -->
     <div class="overlay" id="slideModalOverlay">
         <div class="modal">
             <button class="close-btn" onclick="closeSlideModal()">&times;</button>
@@ -2142,36 +2576,76 @@
                     <label for="slideActive" style="margin-bottom:0;">Active</label>
                     <input type="checkbox" id="slideActive" checked style="width:auto;margin:0;" />
                 </div>
-                <button type="submit" class="btn btn-primary" id="slideSubmitBtn">Save Slide</button>
+                <button type="submit" class="btn btn-primary">Save Slide</button>
                 <div id="slideFormError" class="error-msg" style="color:#dc3545;font-size:0.85rem;margin-top:0.5rem;"></div>
             </form>
         </div>
     </div>
 
     <!-- ================================================================
-    JAVASCRIPT — FIXED & DEBUGGED
+    JAVASCRIPT — FULL APP
     ================================================================ -->
     <script>
         // ====================================================================
-        // 1. SUPABASE INIT — YOUR CREDENTIALS
+        // DATA LAYER
         // ====================================================================
-        const SUPABASE_URL = 'https://jmnuoevnjbxcqqtpfoqt.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_zEdeXe-8C8e-uT43ITI4SQ_ZxpgFYoE';
 
-        let supabase;
+        function getData(key, defaultVal) {
+            try { return JSON.parse(localStorage.getItem('dt_' + key)) || defaultVal; } catch (e) { return defaultVal; }
+        }
 
-        function initSupabase() {
-            if (!supabase) {
-                const { createClient } = supabaseJs;
-                supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('🔌 Supabase client initialized.');
-            }
-            return supabase;
+        function setData(key, val) {
+            localStorage.setItem('dt_' + key, JSON.stringify(val));
+        }
+
+        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+        const defaultProducts = [
+            { id: 'p1', name: 'School Management Systems', category: 'education', description: 'End-to-end academic and administrative platform for educational institutions.', features: ['Student enrollment & records', 'Attendance & grade management', 'Fee payment & financial tracking', 'Parent & teacher portals'], image: '' },
+            { id: 'p2', name: 'Business Management Solutions', category: 'business', description: 'ERP, CRM, and operational tools to streamline your business processes.', features: ['Inventory & supply chain', 'Sales & customer management', 'Financial accounting & reporting', 'HR & payroll integration'], image: '' },
+            { id: 'p3', name: 'Healthcare Management Systems', category: 'healthcare', description: 'Patient-centric platforms for hospitals, clinics, and health facilities.', features: ['Electronic health records (EHR)', 'Appointment scheduling', 'Billing & insurance claims', 'Telemedicine integration'], image: '' },
+            { id: 'p4', name: 'Custom Web Applications', category: 'custom', description: 'Tailored software built to address your unique business challenges.', features: ['Full-stack development', 'Mobile-responsive design', 'API & third-party integrations', 'Scalable cloud architecture'], image: '' },
+            { id: 'p5', name: 'Technical Support & Maintenance', category: 'support', description: 'Reliable support, updates, and optimization for your digital assets.', features: ['24/7 monitoring & support', 'Security patches & updates', 'Performance optimization', 'Backup & disaster recovery'], image: '' },
+        ];
+
+        const defaultSlides = [
+            { id: 's1', title: 'Innovative Software Solutions', subtitle: 'Empowering organizations with cutting-edge technology.', link: '', order: 0, active: true, image: '' },
+            { id: 's2', title: 'Digital Transformation', subtitle: 'Streamline your operations with our custom solutions.', link: '', order: 1, active: true, image: '' },
+        ];
+
+        const faqData = [
+            { id: 'f1', category: 'general', question: 'What industries does Dynamic Tech serve?', answer: 'We serve education, healthcare, business, government, and NGOs across Nigeria and Africa.' },
+            { id: 'f2', category: 'general', question: 'How do I request a consultation?', answer: 'You can use the contact form above, call us directly at 08142924297, or send an email to mujtabba1796@gmail.com.' },
+            { id: 'f3', category: 'support', question: 'Do you offer ongoing support after deployment?', answer: 'Yes, we provide comprehensive technical support and maintenance packages tailored to your needs.' },
+            { id: 'f4', category: 'technical', question: 'Can you build custom software for my organization?', answer: 'Absolutely. We specialize in custom web applications built to your exact specifications and requirements.' },
+            { id: 'f5', category: 'security', question: 'Is my data secure with Dynamic Tech?', answer: 'Yes, we implement enterprise-grade security measures, data encryption, and comply with best practices to protect your information.' },
+            { id: 'f6', category: 'billing', question: 'What payment methods do you accept?', answer: 'We accept bank transfers, mobile payments, and installment plans for large projects. Contact us for details.' },
+            { id: 'f7', category: 'technical', question: 'How long does a typical project take?', answer: 'Timelines vary based on complexity. A simple website may take 2-4 weeks, while a full ERP system can take 3-6 months.' },
+            { id: 'f8', category: 'support', question: 'Do you offer training for your systems?', answer: 'Yes, we provide comprehensive training and documentation for all our solutions to ensure smooth adoption.' },
+        ];
+
+        let products = getData('products', defaultProducts);
+        let slides = getData('slides', defaultSlides);
+        let customers = getData('customers', []);
+        let orders = getData('orders', []);
+        let loggedInCustomer = getData('loggedInCustomer', null);
+        let chatMessages = getData('chatMessages', []);
+        let faqVotes = getData('faqVotes', {});
+
+        function saveAll() {
+            setData('products', products);
+            setData('slides', slides);
+            setData('customers', customers);
+            setData('orders', orders);
+            setData('loggedInCustomer', loggedInCustomer);
+            setData('chatMessages', chatMessages);
+            setData('faqVotes', faqVotes);
         }
 
         // ====================================================================
-        // 2. TOAST & HELPERS
+        // TOAST & HELPERS
         // ====================================================================
+
         function showToast(msg, type = 'info') {
             const el = document.getElementById('toast');
             el.textContent = msg;
@@ -2180,388 +2654,118 @@
             el._timer = setTimeout(() => { el.className = 'toast'; }, 3500);
         }
 
-        function openOverlay(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        function openOverlay(id) { document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden'; }
 
-        function closeOverlay(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
-
-        function getCategoryIcon(cat) {
-            const map = { education: '🏫', business: '💼', healthcare: '🏥', custom: '⚙️', support: '🔧', other: '📦' };
-            return map[cat] || '📦';
-        }
+        function closeOverlay(id) { document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = ''; }
 
         // ====================================================================
-        // 3. STATE
+        // SUPABASE INTEGRATION (hardcoded config — no UI)
         // ====================================================================
-        let loggedInCustomer = null;
-        let allProducts = [];
-        let allSlides = [];
-        let allCustomers = [];
-        let allOrders = [];
-        let currentSlideIndex = 0;
-        let slideInterval = null;
 
-        // ====================================================================
-        // 4. DATA FETCHING FROM SUPABASE
-        // ====================================================================
-        async function fetchProducts() {
-            try {
-                const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
-                if (error) throw error;
-                allProducts = data || [];
-                return allProducts;
-            } catch (e) {
-                console.error('fetchProducts error:', e);
-                showToast('Failed to load products.', 'error');
-                return [];
-            }
-        }
+        // ⚠️ Replace these with your actual Supabase credentials
+        const SUPABASE_URL = 'https://lggxourxtfqxpbtbwfvq.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_0PkiJ1tqkMwQ1vYjxtDIWw_3hWyzhZH';
 
-        // FIXED: Use "slide_order" column instead of reserved keyword "order"
-        async function fetchSlides() {
-            try {
-                const { data, error } = await supabase.from('slides').select('*').order('slide_order', { ascending: true });
-                if (error) throw error;
-                allSlides = data || [];
-                return allSlides;
-            } catch (e) {
-                console.error('fetchSlides error:', e);
-                showToast('Failed to load slides.', 'error');
-                return [];
-            }
-        }
+        let supabaseClient = null;
+        let supabaseSession = null;
 
-        async function fetchCustomers() {
-            try {
-                const { data, error } = await supabase.from('customers').select('*').order('created_at', { ascending: false });
-                if (error) throw error;
-                allCustomers = data || [];
-                return allCustomers;
-            } catch (e) {
-                console.error('fetchCustomers error:', e);
-                showToast('Failed to load customers.', 'error');
-                return [];
-            }
-        }
-
-        async function fetchOrders() {
-            try {
-                const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
-                if (error) throw error;
-                allOrders = data || [];
-                return allOrders;
-            } catch (e) {
-                console.error('fetchOrders error:', e);
-                showToast('Failed to load orders.', 'error');
-                return [];
-            }
-        }
-
-        async function fetchAllData() {
-            await Promise.all([fetchProducts(), fetchSlides(), fetchCustomers(), fetchOrders()]);
-            updatePublicViews();
-            renderAdminDashboard();
-        }
-
-        // ====================================================================
-        // 5. SUPABASE CRUD OPERATIONS
-        // ====================================================================
-        // --- Products ---
-        async function createProduct(product) {
-            try {
-                const { data, error } = await supabase.from('products').insert([product]).select();
-                if (error) throw error;
-                if (data && data.length) allProducts.unshift(data[0]);
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('createProduct error:', e);
-                showToast('Failed to create product.', 'error');
-                return null;
-            }
-        }
-
-        async function updateProduct(id, updates) {
-            try {
-                const { data, error } = await supabase.from('products').update(updates).eq('id', id).select();
-                if (error) throw error;
-                if (data && data.length) {
-                    const idx = allProducts.findIndex(p => p.id === id);
-                    if (idx > -1) allProducts[idx] = data[0];
-                }
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('updateProduct error:', e);
-                showToast('Failed to update product.', 'error');
-                return null;
-            }
-        }
-
-        async function deleteProduct(id) {
-            try {
-                const { error } = await supabase.from('products').delete().eq('id', id);
-                if (error) throw error;
-                allProducts = allProducts.filter(p => p.id !== id);
-                return true;
-            } catch (e) {
-                console.error('deleteProduct error:', e);
-                showToast('Failed to delete product.', 'error');
-                return false;
-            }
-        }
-
-        // --- Slides ---
-        // FIXED: Use "slide_order" instead of "order"
-        async function createSlide(slide) {
-            try {
-                const { data, error } = await supabase.from('slides').insert([slide]).select();
-                if (error) throw error;
-                if (data && data.length) allSlides.push(data[0]);
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('createSlide error:', e);
-                showToast('Failed to create slide.', 'error');
-                return null;
-            }
-        }
-
-        async function updateSlide(id, updates) {
-            try {
-                const { data, error } = await supabase.from('slides').update(updates).eq('id', id).select();
-                if (error) throw error;
-                if (data && data.length) {
-                    const idx = allSlides.findIndex(s => s.id === id);
-                    if (idx > -1) allSlides[idx] = data[0];
-                }
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('updateSlide error:', e);
-                showToast('Failed to update slide.', 'error');
-                return null;
-            }
-        }
-
-        async function deleteSlide(id) {
-            try {
-                const { error } = await supabase.from('slides').delete().eq('id', id);
-                if (error) throw error;
-                allSlides = allSlides.filter(s => s.id !== id);
-                return true;
-            } catch (e) {
-                console.error('deleteSlide error:', e);
-                showToast('Failed to delete slide.', 'error');
-                return false;
-            }
-        }
-
-        // --- Customers ---
-        async function createCustomer(customer) {
-            try {
-                const { data, error } = await supabase.from('customers').insert([customer]).select();
-                if (error) throw error;
-                if (data && data.length) allCustomers.push(data[0]);
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('createCustomer error:', e);
-                showToast('Registration failed. Please try again.', 'error');
-                return null;
-            }
-        }
-
-        async function findCustomerByEmail(email) {
-            try {
-                const { data, error } = await supabase.from('customers').select('*').eq('email', email).maybeSingle();
-                if (error) throw error;
-                return data;
-            } catch (e) {
-                console.error('findCustomerByEmail error:', e);
-                return null;
-            }
-        }
-
-        // --- Orders ---
-        async function createOrder(order) {
-            try {
-                const { data, error } = await supabase.from('orders').insert([order]).select();
-                if (error) throw error;
-                if (data && data.length) allOrders.unshift(data[0]);
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('createOrder error:', e);
-                showToast('Failed to place order.', 'error');
-                return null;
-            }
-        }
-
-        async function updateOrderStatus(id, status) {
-            try {
-                const { data, error } = await supabase.from('orders').update({ status, updated_at: new Date() }).eq('id', id)
-                    .select();
-                if (error) throw error;
-                if (data && data.length) {
-                    const idx = allOrders.findIndex(o => o.id === id);
-                    if (idx > -1) allOrders[idx] = data[0];
-                }
-                return data ? data[0] : null;
-            } catch (e) {
-                console.error('updateOrderStatus error:', e);
-                showToast('Failed to update order status.', 'error');
-                return null;
-            }
-        }
-
-        async function deleteOrder(id) {
-            try {
-                const { error } = await supabase.from('orders').delete().eq('id', id);
-                if (error) throw error;
-                allOrders = allOrders.filter(o => o.id !== id);
-                return true;
-            } catch (e) {
-                console.error('deleteOrder error:', e);
-                showToast('Failed to delete order.', 'error');
-                return false;
-            }
-        }
-
-        // ====================================================================
-        // 6. PUBLIC VIEWS
-        // ====================================================================
-        function updatePublicViews() {
-            renderServicesGrid();
-            renderSlideshow();
-            updateContactDropdown();
-        }
-
-        function renderServicesGrid() {
-            const grid = document.getElementById('servicesGrid');
-            if (!allProducts.length) {
-                grid.innerHTML = '<p style="text-align:center;color:var(--gray-500);grid-column:1/-1;">No services available yet.</p>';
+        function initializeSupabase() {
+            if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL === 'https://your-project.supabase.co') {
+                console.warn('⚠️ Please set your Supabase URL and Anon Key in the JavaScript.');
                 return;
             }
-            grid.innerHTML = allProducts.map(p => `
-                    <div class="service-card">
-                        <div class="icon">${getCategoryIcon(p.category)}</div>
-                        <h3>${p.name}</h3>
-                        <p>${p.description || ''}</p>
-                        ${p.features && p.features.length ? `<ul class="features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
-                        ${p.image ? `<img src="${p.image}" class="service-image" alt="${p.name}" />` : ''}
-                        <button class="btn btn-primary btn-sm order-btn" onclick="openCustomerRegister()">Order Now</button>
-                    </div>
-                `).join('');
-        }
-
-        function updateContactDropdown() {
-            const sel = document.getElementById('cservice');
-            const val = sel.value;
-            sel.innerHTML = '<option value="">Select a service</option>' +
-                allProducts.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
-            if (val) sel.value = val;
-        }
-
-        // ===== SLIDESHOW (fixed: uses slide_order) =====
-        function renderSlideshow() {
-            const wrapper = document.getElementById('slidesWrapper');
-            const dotsContainer = document.getElementById('slideDots');
-            const activeSlides = allSlides.filter(s => s.active).sort((a, b) => (a.slide_order || 0) - (b.slide_order || 0));
-
-            if (!activeSlides.length) {
-                wrapper.innerHTML = `
-                        <div class="slide-item active" style="background:var(--dark);display:flex;align-items:center;justify-content:center;">
-                            <div class="slide-content"><h3>Welcome to Dynamic Tech</h3><p>Innovative software solutions for your organization.</p></div>
-                        </div>
-                    `;
-                dotsContainer.innerHTML = '';
-                return;
-            }
-
-            wrapper.innerHTML = activeSlides.map((s, i) => `
-                    <div class="slide-item ${i === 0 ? 'active' : ''}" style="background-image: url('${s.image || ''}'); background-size: cover; background-position: center;">
-                        <div class="slide-content">
-                            <h3>${s.title}</h3>
-                            ${s.subtitle ? `<p>${s.subtitle}</p>` : ''}
-                            ${s.link ? `<a href="${s.link}" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">Learn More</a>` : ''}
-                        </div>
-                    </div>
-                `).join('');
-
-            dotsContainer.innerHTML = activeSlides.map((_, i) =>
-                `<button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i+1}"></button>`
-            ).join('');
-
-            dotsContainer.querySelectorAll('.dot').forEach(dot => {
-                dot.addEventListener('click', function() {
-                    goToSlide(parseInt(this.dataset.index));
+            try {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                supabaseClient.auth.getSession().then(({ data, error }) => {
+                    if (error) { console.error('Session error:', error); return; }
+                    if (data.session) {
+                        supabaseSession = data.session;
+                    }
                 });
-            });
-
-            document.getElementById('slidePrev').onclick = () => changeSlide(-1);
-            document.getElementById('slideNext').onclick = () => changeSlide(1);
-
-            currentSlideIndex = 0;
-            startSlideshow();
+                supabaseClient.auth.onAuthStateChange((event, session) => {
+                    if (event === 'SIGNED_IN') {
+                        supabaseSession = session;
+                        closeOverlay('adminLoginOverlay');
+                        openAdminDashboard();
+                        showToast('Welcome Admin!', 'success');
+                    } else if (event === 'SIGNED_OUT') {
+                        supabaseSession = null;
+                        if (document.getElementById('adminDashboard').classList.contains('active')) {
+                            adminLogout();
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Supabase init error:', e);
+                showToast('Failed to initialize Supabase. Check credentials.', 'error');
+            }
         }
 
-        function goToSlide(index) {
-            const slidesEl = document.querySelectorAll('.slide-item');
-            const dots = document.querySelectorAll('.dot');
-            if (!slidesEl.length) return;
-            if (index < 0) index = slidesEl.length - 1;
-            if (index >= slidesEl.length) index = 0;
-            slidesEl.forEach(el => el.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            slidesEl[index].classList.add('active');
-            dots[index].classList.add('active');
-            currentSlideIndex = index;
-        }
+        // Admin login with Supabase
+        document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const errorEl = document.getElementById('adminLoginError');
 
-        function changeSlide(direction) {
-            const slidesEl = document.querySelectorAll('.slide-item');
-            if (!slidesEl.length) return;
-            goToSlide(currentSlideIndex + direction);
-            resetSlideshowTimer();
-        }
+            if (!supabaseClient) {
+                errorEl.textContent = 'Supabase not initialized. Please check configuration.';
+                return;
+            }
 
-        function startSlideshow() {
-            stopSlideshow();
-            slideInterval = setInterval(() => changeSlide(1), 5000);
-        }
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) {
+                    errorEl.textContent = error.message;
+                    return;
+                }
+                errorEl.textContent = '';
+            } catch (err) {
+                errorEl.textContent = 'An error occurred. Please try again.';
+                console.error(err);
+            }
+        });
 
-        function stopSlideshow() {
-            if (slideInterval) { clearInterval(slideInterval);
-                slideInterval = null; }
-        }
-
-        function resetSlideshowTimer() {
-            stopSlideshow();
-            startSlideshow();
-        }
-
-        // ====================================================================
-        // 7. ADMIN DASHBOARD
-        // ====================================================================
-        function openAdminDashboard() {
-            document.getElementById('adminDashboard').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderAdminDashboard();
-        }
-
-        function adminLogout() {
+        // Admin logout (also Supabase sign out)
+        async function adminLogout() {
+            if (supabaseClient) {
+                await supabaseClient.auth.signOut();
+            }
             document.getElementById('adminDashboard').classList.remove('active');
             document.body.style.overflow = '';
             showToast('Logged out.', 'info');
         }
 
-        // Admin tab switching
+        // Open admin login
+        function openAdminLogin() {
+            document.getElementById('adminLoginError').textContent = '';
+            openOverlay('adminLoginOverlay');
+        }
+
+        // Open admin dashboard (protected)
+        function openAdminDashboard() {
+            if (!supabaseClient) {
+                showToast('Supabase not configured. Please check credentials.', 'error');
+                return;
+            }
+            supabaseClient.auth.getSession().then(({ data, error }) => {
+                if (error || !data.session) {
+                    showToast('Please login first.', 'info');
+                    openAdminLogin();
+                    return;
+                }
+                document.getElementById('adminDashboard').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                renderAdminDashboard();
+            });
+        }
+
+        // ====================================================================
+        // ADMIN DASHBOARD RENDER
+        // ====================================================================
+
         document.querySelectorAll('.admin-sidebar .nav-item').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.admin-sidebar .nav-item').forEach(b => b.classList.remove('active'));
@@ -2575,171 +2779,69 @@
                 if (tab === 'slides') renderSlidesTable();
                 if (tab === 'customers') renderCustomersTable();
                 if (tab === 'orders') renderOrdersTable();
+                if (tab === 'chat') renderAdminChat();
             });
         });
 
-        // Show dashboard by default
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.admin-tab').forEach(el => el.style.display = 'none');
-            const dash = document.getElementById('tab-dashboard');
-            if (dash) dash.style.display = 'block';
-        });
-
         function renderAdminDashboard() {
-            document.getElementById('statProducts').textContent = allProducts.length;
-            document.getElementById('statSlides').textContent = allSlides.filter(s => s.active).length;
-            document.getElementById('statCustomers').textContent = allCustomers.length;
-            document.getElementById('statOrders').textContent = allOrders.length;
+            document.getElementById('statProducts').textContent = products.length;
+            document.getElementById('statSlides').textContent = slides.filter(s => s.active).length;
+            document.getElementById('statCustomers').textContent = customers.length;
+            document.getElementById('statOrders').textContent = orders.length;
 
-            const recent = allOrders.slice(0, 5);
+            const recent = orders.slice(-5).reverse();
             const tbody = document.getElementById('recentOrdersBody');
-            if (!recent.length) {
+            if (recent.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No orders yet.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = recent.map(o => {
-                const cust = allCustomers.find(c => c.id === o.customer_id);
-                const prod = allProducts.find(p => p.id === o.product_id);
-                return `<tr>
-                        <td>${cust ? cust.full_name : 'Unknown'}</td>
+            } else {
+                tbody.innerHTML = recent.map(o => {
+                    const cust = customers.find(c => c.id === o.customerId);
+                    const prod = products.find(p => p.id === o.productId);
+                    return `<tr>
+                        <td>${cust ? cust.fullName : 'Unknown'}</td>
                         <td>${prod ? prod.name : 'Unknown'}</td>
                         <td><span class="status-badge ${o.status}">${o.status}</span></td>
-                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
+                        <td>${new Date(o.createdAt).toLocaleDateString()}</td>
                     </tr>`;
-            }).join('');
+                }).join('');
+            }
         }
 
-        // ===== PRODUCTS TABLE =====
+        // ====================================================================
+        // PRODUCTS CRUD
+        // ====================================================================
+
         function renderProductsTable(filter = '') {
             const tbody = document.getElementById('productsTableBody');
-            let list = allProducts;
+            let list = products;
             if (filter) list = list.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
-            if (!list.length) {
+            if (list.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No products found.</td></tr>';
                 return;
             }
             tbody.innerHTML = list.map(p => `
-                    <tr>
-                        <td>${p.image ? `<img src="${p.image}" class="img-preview-thumb" alt="${p.name}" />` : '📄'}</td>
-                        <td><strong>${p.name}</strong><br><small style="color:var(--gray-500);">${p.category}</small></td>
-                        <td>${p.category}</td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn btn-primary btn-sm" onclick="editProduct('${p.id}')">✏️</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteProductHandler('${p.id}')">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
+                <tr>
+                    <td>${p.image ? `<img src="${p.image}" class="img-preview-thumb" alt="${p.name}" />` : '📄'}</td>
+                    <td><strong>${p.name}</strong><br><small style="color:var(--gray-500);">${p.category}</small></td>
+                    <td>${p.category}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-primary btn-sm" onclick="editProduct('${p.id}')">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         function filterProducts() { renderProductsTable(document.getElementById('productSearch').value); }
 
-        // ===== SLIDES TABLE (fixed: uses slide_order) =====
-        function renderSlidesTable(filter = '') {
-            const tbody = document.getElementById('slidesTableBody');
-            let list = allSlides;
-            if (filter) list = list.filter(s => s.title.toLowerCase().includes(filter.toLowerCase()));
-            if (!list.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No slides found.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = list.map(s => `
-                    <tr>
-                        <td>${s.image ? `<img src="${s.image}" class="img-preview-thumb" alt="${s.title}" />` : '📄'}</td>
-                        <td><strong>${s.title}</strong></td>
-                        <td>${s.subtitle || '—'}</td>
-                        <td><span class="status-badge ${s.active ? 'active' : 'inactive'}">${s.active ? 'Active' : 'Inactive'}</span></td>
-                        <td>${s.slide_order || 0}</td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn btn-primary btn-sm" onclick="editSlide('${s.id}')">✏️</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteSlideHandler('${s.id}')">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-        }
-
-        function filterSlides() { renderSlidesTable(document.getElementById('slideSearch').value); }
-
-        // ===== CUSTOMERS TABLE =====
-        function renderCustomersTable(filter = '') {
-            const tbody = document.getElementById('customersTableBody');
-            let list = allCustomers;
-            if (filter) list = list.filter(c => c.full_name.toLowerCase().includes(filter.toLowerCase()) || c.email.toLowerCase()
-                .includes(filter.toLowerCase()));
-            if (!list.length) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);">No customers found.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = list.map(c => {
-                const orderCount = allOrders.filter(o => o.customer_id === c.id).length;
-                return `<tr>
-                        <td><strong>${c.full_name}</strong></td>
-                        <td>${c.email}</td>
-                        <td>${c.phone || '—'}</td>
-                        <td>${c.company || '—'}</td>
-                        <td>${orderCount}</td>
-                    </tr>`;
-            }).join('');
-        }
-
-        function filterCustomers() { renderCustomersTable(document.getElementById('customerSearch').value); }
-
-        // ===== ORDERS TABLE =====
-        function renderOrdersTable(filter = '', statusFilter = '') {
-            const tbody = document.getElementById('ordersTableBody');
-            let list = [...allOrders];
-            if (filter) list = list.filter(o => {
-                const cust = allCustomers.find(c => c.id === o.customer_id);
-                const prod = allProducts.find(p => p.id === o.product_id);
-                return (cust && cust.full_name.toLowerCase().includes(filter.toLowerCase())) ||
-                    (prod && prod.name.toLowerCase().includes(filter.toLowerCase()));
-            });
-            if (statusFilter) list = list.filter(o => o.status === statusFilter);
-            if (!list.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No orders found.</td></tr>';
-                return;
-            }
-            tbody.innerHTML = list.map(o => {
-                const cust = allCustomers.find(c => c.id === o.customer_id);
-                const prod = allProducts.find(p => p.id === o.product_id);
-                return `<tr>
-                        <td>${cust ? cust.full_name : 'Unknown'}</td>
-                        <td>${prod ? prod.name : 'Unknown'}</td>
-                        <td><span class="status-badge ${o.status}">${o.status}</span></td>
-                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
-                        <td>
-                            <div class="actions">
-                                <select onchange="updateOrderStatusHandler('${o.id}', this.value)" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--gray-200);font-size:0.75rem;background:var(--white);">
-                                    <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
-                                    <option value="in-progress" ${o.status==='in-progress'?'selected':''}>In Progress</option>
-                                    <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
-                                    <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
-                                </select>
-                                <button class="btn btn-danger btn-sm" onclick="deleteOrderHandler('${o.id}')">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>`;
-            }).join('');
-        }
-
-        function filterOrders() { renderOrdersTable(document.getElementById('orderSearch').value, document.getElementById(
-                'orderStatusFilter').value); }
-
-        // ====================================================================
-        // 8. ADMIN CRUD HANDLERS
-        // ====================================================================
-        // --- Product ---
-        async function openProductModal(data = null) {
-            document.getElementById('productModalTitle').innerHTML = data ? 'Edit <span>Product</span>' :
-                'Add <span>Product</span>';
+        function openProductModal(data = null) {
+            document.getElementById('productModalTitle').innerHTML = data ? 'Edit <span>Product</span>' : 'Add <span>Product</span>';
             document.getElementById('productName').value = data ? data.name : '';
             document.getElementById('productCategory').value = data ? data.category : '';
             document.getElementById('productDescription').value = data ? data.description : '';
-            document.getElementById('productFeatures').value = data && data.features ? data.features.join(', ') : '';
+            document.getElementById('productFeatures').value = data ? (data.features || []).join(', ') : '';
             document.getElementById('productImagePreview').src = data && data.image ? data.image : '';
             document.getElementById('productImagePreview').style.display = data && data.image ? 'block' : 'none';
             document.getElementById('productUploadPlaceholder').style.display = data && data.image ? 'none' : 'block';
@@ -2747,28 +2849,29 @@
             document.getElementById('productEditId').value = data ? data.id : '';
             document.getElementById('productImageInput').value = '';
             document.getElementById('productFormError').textContent = '';
-            document.getElementById('productFormError').classList.remove('show');
             openOverlay('productModalOverlay');
         }
 
-        async function editProduct(id) {
-            const p = allProducts.find(x => x.id === id);
+        function editProduct(id) {
+            const p = products.find(x => x.id === id);
             if (p) openProductModal(p);
             else showToast('Product not found.', 'error');
         }
 
-        async function deleteProductHandler(id) {
+        function deleteProduct(id) {
             if (!confirm('Delete this product?')) return;
-            const ok = await deleteProduct(id);
-            if (ok) {
-                renderProductsTable(document.getElementById('productSearch').value);
-                showToast('Product deleted.', 'info');
-                renderAdminDashboard();
-                updatePublicViews();
-            }
+            products = products.filter(p => p.id !== id);
+            saveAll();
+            renderProductsTable(document.getElementById('productSearch').value);
+            showToast('Product deleted.', 'info');
+            renderAdminDashboard();
+            updatePublicViews();
         }
 
-        document.getElementById('productForm').addEventListener('submit', async function(e) {
+        function closeProductModal() { closeOverlay('productModalOverlay');
+            document.getElementById('productImageInput').value = ''; }
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const editId = document.getElementById('productEditId').value;
             const name = document.getElementById('productName').value.trim();
@@ -2787,17 +2890,14 @@
             errorEl.textContent = '';
             errorEl.classList.remove('show');
 
-            const btn = document.getElementById('productSubmitBtn');
-            btn.innerHTML = '<span class="spinner"></span> Saving...';
-            btn.disabled = true;
-
             if (editId) {
-                await updateProduct(editId, { name, category, description, features, image });
+                const idx = products.findIndex(p => p.id === editId);
+                if (idx > -1) products[idx] = { ...products[idx], name, category, description, features, image: image || products[
+                        idx].image || '' };
             } else {
-                await createProduct({ id: uid(), name, category, description, features, image, created_at: new Date() });
+                products.push({ id: uid(), name, category, description, features, image: image || '' });
             }
-            btn.innerHTML = 'Save Product';
-            btn.disabled = false;
+            saveAll();
             closeProductModal();
             renderProductsTable(document.getElementById('productSearch').value);
             showToast(editId ? 'Product updated!' : 'Product added!', 'success');
@@ -2805,16 +2905,46 @@
             updatePublicViews();
         });
 
-        function closeProductModal() { closeOverlay('productModalOverlay');
-            document.getElementById('productImageInput').value = ''; }
+        setupImageUpload('productImageInput', 'productImagePreview', 'productUploadPlaceholder', 'productRemoveImage',
+            'productImageArea');
 
-        // --- Slide (fixed: uses slide_order) ---
-        async function openSlideModal(data = null) {
+        // ====================================================================
+        // SLIDES CRUD
+        // ====================================================================
+
+        function renderSlidesTable(filter = '') {
+            const tbody = document.getElementById('slidesTableBody');
+            let list = slides;
+            if (filter) list = list.filter(s => s.title.toLowerCase().includes(filter.toLowerCase()));
+            if (list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No slides found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(s => `
+                <tr>
+                    <td>${s.image ? `<img src="${s.image}" class="img-preview-thumb" alt="${s.title}" />` : '📄'}</td>
+                    <td><strong>${s.title}</strong></td>
+                    <td>${s.subtitle || '—'}</td>
+                    <td><span class="status-badge ${s.active ? 'active' : 'inactive'}">${s.active ? 'Active' : 'Inactive'}</span></td>
+                    <td>${s.order || 0}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-primary btn-sm" onclick="editSlide('${s.id}')">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteSlide('${s.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterSlides() { renderSlidesTable(document.getElementById('slideSearch').value); }
+
+        function openSlideModal(data = null) {
             document.getElementById('slideModalTitle').innerHTML = data ? 'Edit <span>Slide</span>' : 'Add <span>Slide</span>';
             document.getElementById('slideTitle').value = data ? data.title : '';
             document.getElementById('slideSubtitle').value = data ? data.subtitle : '';
             document.getElementById('slideLink').value = data ? data.link : '';
-            document.getElementById('slideOrder').value = data ? data.slide_order || 0 : 0;
+            document.getElementById('slideOrder').value = data ? data.order : 0;
             document.getElementById('slideActive').checked = data ? data.active : true;
             document.getElementById('slideImagePreview').src = data && data.image ? data.image : '';
             document.getElementById('slideImagePreview').style.display = data && data.image ? 'block' : 'none';
@@ -2824,34 +2954,35 @@
             document.getElementById('slideImageInput').value = '';
             document.getElementById('slideImageInput').required = !data;
             document.getElementById('slideFormError').textContent = '';
-            document.getElementById('slideFormError').classList.remove('show');
             openOverlay('slideModalOverlay');
         }
 
-        async function editSlide(id) {
-            const s = allSlides.find(x => x.id === id);
+        function editSlide(id) {
+            const s = slides.find(x => x.id === id);
             if (s) openSlideModal(s);
             else showToast('Slide not found.', 'error');
         }
 
-        async function deleteSlideHandler(id) {
+        function deleteSlide(id) {
             if (!confirm('Delete this slide?')) return;
-            const ok = await deleteSlide(id);
-            if (ok) {
-                renderSlidesTable(document.getElementById('slideSearch').value);
-                showToast('Slide deleted.', 'info');
-                renderAdminDashboard();
-                updatePublicViews();
-            }
+            slides = slides.filter(s => s.id !== id);
+            saveAll();
+            renderSlidesTable(document.getElementById('slideSearch').value);
+            showToast('Slide deleted.', 'info');
+            renderAdminDashboard();
+            updatePublicViews();
         }
 
-        document.getElementById('slideForm').addEventListener('submit', async function(e) {
+        function closeSlideModal() { closeOverlay('slideModalOverlay');
+            document.getElementById('slideImageInput').value = ''; }
+
+        document.getElementById('slideForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const editId = document.getElementById('slideEditId').value;
             const title = document.getElementById('slideTitle').value.trim();
             const subtitle = document.getElementById('slideSubtitle').value.trim();
             const link = document.getElementById('slideLink').value.trim();
-            const slide_order = parseInt(document.getElementById('slideOrder').value) || 0;
+            const order = parseInt(document.getElementById('slideOrder').value) || 0;
             const active = document.getElementById('slideActive').checked;
             const image = document.getElementById('slideImagePreview').src || '';
 
@@ -2869,17 +3000,14 @@
             errorEl.textContent = '';
             errorEl.classList.remove('show');
 
-            const btn = document.getElementById('slideSubmitBtn');
-            btn.innerHTML = '<span class="spinner"></span> Saving...';
-            btn.disabled = true;
-
             if (editId) {
-                await updateSlide(editId, { title, subtitle, link, slide_order, active, image });
+                const idx = slides.findIndex(s => s.id === editId);
+                if (idx > -1) slides[idx] = { ...slides[idx], title, subtitle, link, order, active, image: image || slides[idx]
+                        .image || '' };
             } else {
-                await createSlide({ id: uid(), title, subtitle, link, slide_order, active, image, created_at: new Date() });
+                slides.push({ id: uid(), title, subtitle, link, order, active, image: image || '' });
             }
-            btn.innerHTML = 'Save Slide';
-            btn.disabled = false;
+            saveAll();
             closeSlideModal();
             renderSlidesTable(document.getElementById('slideSearch').value);
             showToast(editId ? 'Slide updated!' : 'Slide added!', 'success');
@@ -2887,43 +3015,18 @@
             updatePublicViews();
         });
 
-        function closeSlideModal() { closeOverlay('slideModalOverlay');
-            document.getElementById('slideImageInput').value = ''; }
-
-        // --- Order ---
-        async function updateOrderStatusHandler(id, status) {
-            const ok = await updateOrderStatus(id, status);
-            if (ok) {
-                filterOrders();
-                renderAdminDashboard();
-                showToast('Order status updated.', 'success');
-            }
-        }
-
-        async function deleteOrderHandler(id) {
-            if (!confirm('Delete this order?')) return;
-            const ok = await deleteOrder(id);
-            if (ok) {
-                filterOrders();
-                renderAdminDashboard();
-                showToast('Order deleted.', 'info');
-            }
-        }
+        setupImageUpload('slideImageInput', 'slideImagePreview', 'slideUploadPlaceholder', 'slideRemoveImage', 'slideImageArea');
 
         // ====================================================================
-        // 9. IMAGE UPLOAD HELPER (fixed: better error handling)
+        // IMAGE UPLOAD HELPER
         // ====================================================================
+
         function setupImageUpload(inputId, previewId, placeholderId, removeBtnId, areaId) {
             const input = document.getElementById(inputId);
             const preview = document.getElementById(previewId);
             const placeholder = document.getElementById(placeholderId);
             const removeBtn = document.getElementById(removeBtnId);
             const area = document.getElementById(areaId);
-
-            if (!input || !preview || !placeholder || !removeBtn || !area) {
-                console.warn('Image upload setup failed: missing elements for', inputId);
-                return;
-            }
 
             input.addEventListener('change', function(e) {
                 const file = e.target.files[0];
@@ -2939,9 +3042,6 @@
                     preview.style.display = 'block';
                     placeholder.style.display = 'none';
                     removeBtn.classList.add('show');
-                };
-                reader.onerror = function() {
-                    showToast('Failed to read image file.', 'error');
                 };
                 reader.readAsDataURL(file);
             });
@@ -2975,16 +3075,103 @@
         }
 
         // ====================================================================
-        // 10. CUSTOMER AUTH & DASHBOARD
+        // CUSTOMERS & ORDERS
         // ====================================================================
-        async function openCustomerRegister() {
+
+        function renderCustomersTable(filter = '') {
+            const tbody = document.getElementById('customersTableBody');
+            let list = customers;
+            if (filter) list = list.filter(c => c.fullName.toLowerCase().includes(filter.toLowerCase()) || c.email.toLowerCase()
+                .includes(filter.toLowerCase()));
+            if (list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);">No customers found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(c => {
+                const orderCount = orders.filter(o => o.customerId === c.id).length;
+                return `<tr>
+                    <td><strong>${c.fullName}</strong></td>
+                    <td>${c.email}</td>
+                    <td>${c.phone || '—'}</td>
+                    <td>${c.company || '—'}</td>
+                    <td>${orderCount}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function filterCustomers() { renderCustomersTable(document.getElementById('customerSearch').value); }
+
+        function renderOrdersTable(filter = '', statusFilter = '') {
+            const tbody = document.getElementById('ordersTableBody');
+            let list = [...orders];
+            if (filter) list = list.filter(o => {
+                const cust = customers.find(c => c.id === o.customerId);
+                const prod = products.find(p => p.id === o.productId);
+                return (cust && cust.fullName.toLowerCase().includes(filter.toLowerCase())) ||
+                    (prod && prod.name.toLowerCase().includes(filter.toLowerCase()));
+            });
+            if (statusFilter) list = list.filter(o => o.status === statusFilter);
+            if (list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);">No orders found.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = list.map(o => {
+                const cust = customers.find(c => c.id === o.customerId);
+                const prod = products.find(p => p.id === o.productId);
+                return `<tr>
+                    <td>${cust ? cust.fullName : 'Unknown'}</td>
+                    <td>${prod ? prod.name : 'Unknown'}</td>
+                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                    <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+                    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
+                    <td>
+                        <div class="actions">
+                            <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--gray-200);font-size:0.75rem;background:var(--white);">
+                                <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+                                <option value="in-progress" ${o.status==='in-progress'?'selected':''}>In Progress</option>
+                                <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
+                                <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+                            </select>
+                            <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function filterOrders() { renderOrdersTable(document.getElementById('orderSearch').value, document.getElementById(
+                'orderStatusFilter').value); }
+
+        function updateOrderStatus(id, status) {
+            const o = orders.find(x => x.id === id);
+            if (o) { o.status = status;
+                o.updatedAt = Date.now();
+                saveAll();
+                filterOrders();
+                renderAdminDashboard();
+                showToast('Order status updated.', 'success'); }
+        }
+
+        function deleteOrder(id) {
+            if (!confirm('Delete this order?')) return;
+            orders = orders.filter(o => o.id !== id);
+            saveAll();
+            filterOrders();
+            renderAdminDashboard();
+            showToast('Order deleted.', 'info');
+        }
+
+        // ====================================================================
+        // CUSTOMER REGISTRATION / LOGIN / DASHBOARD
+        // ====================================================================
+
+        function openCustomerRegister() {
             document.getElementById('regError').textContent = '';
-            document.getElementById('regError').classList.remove('show');
             document.getElementById('customerRegisterForm').reset();
             openOverlay('customerRegisterOverlay');
         }
 
-        document.getElementById('customerRegisterForm').addEventListener('submit', async function(e) {
+        document.getElementById('customerRegisterForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const fullName = document.getElementById('regFullName').value.trim();
             const email = document.getElementById('regEmail').value.trim();
@@ -2993,106 +3180,74 @@
             const password = document.getElementById('regPassword').value;
             const confirm = document.getElementById('regConfirm').value;
 
-            const err = document.getElementById('regError');
             if (!fullName || !email || !password) {
-                err.textContent = 'Name, Email and Password are required.';
-                err.classList.add('show');
+                document.getElementById('regError').textContent = 'Name, Email and Password are required.';
                 return;
             }
             if (password.length < 6) {
-                err.textContent = 'Password must be at least 6 characters.';
-                err.classList.add('show');
+                document.getElementById('regError').textContent = 'Password must be at least 6 characters.';
                 return;
             }
             if (password !== confirm) {
-                err.textContent = 'Passwords do not match.';
-                err.classList.add('show');
+                document.getElementById('regError').textContent = 'Passwords do not match.';
                 return;
             }
-
-            const existing = await findCustomerByEmail(email);
-            if (existing) {
-                err.textContent = 'Email already registered. Please login.';
-                err.classList.add('show');
+            if (customers.find(c => c.email === email)) {
+                document.getElementById('regError').textContent = 'Email already registered. Please login.';
                 return;
             }
-            err.textContent = '';
-            err.classList.remove('show');
+            document.getElementById('regError').textContent = '';
 
-            const btn = document.getElementById('regBtn');
-            btn.innerHTML = '<span class="spinner"></span> Registering...';
-            btn.disabled = true;
-
-            const newCust = await createCustomer({
-                id: uid(),
-                full_name: fullName,
-                email,
-                phone,
-                company,
-                password,
-                created_at: new Date()
-            });
-
-            btn.innerHTML = 'Register';
-            btn.disabled = false;
-
-            if (newCust) {
-                closeOverlay('customerRegisterOverlay');
-                showToast('Registration successful! Please login.', 'success');
-                // Auto-login after registration
-                loggedInCustomer = newCust;
-                sessionStorage.setItem('dt_loggedInCustomer', JSON.stringify(newCust));
-                openCustomerDashboard();
-            }
-        });
-
-        async function openCustomerLogin() {
-            document.getElementById('custLoginError').textContent = '';
-            document.getElementById('custLoginError').classList.remove('show');
-            openOverlay('customerLoginOverlay');
-        }
-
-        document.getElementById('customerLoginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('custLoginEmail').value.trim();
-            const password = document.getElementById('custLoginPassword').value;
-
-            const err = document.getElementById('custLoginError');
-            const cust = await findCustomerByEmail(email);
-            if (!cust || cust.password !== password) {
-                err.textContent = 'Invalid email or password.';
-                err.classList.add('show');
-                return;
-            }
-            err.textContent = '';
-            err.classList.remove('show');
-
-            loggedInCustomer = cust;
-            sessionStorage.setItem('dt_loggedInCustomer', JSON.stringify(cust));
-            closeOverlay('customerLoginOverlay');
-            showToast('Welcome back, ' + cust.full_name + '!', 'success');
+            const newCust = { id: uid(), fullName, email, phone, company, password, createdAt: Date.now() };
+            customers.push(newCust);
+            saveAll();
+            closeOverlay('customerRegisterOverlay');
+            showToast('Registration successful! Please login.', 'success');
+            loggedInCustomer = newCust;
+            setData('loggedInCustomer', loggedInCustomer);
             openCustomerDashboard();
         });
 
-        async function openCustomerDashboard() {
+        function openCustomerLogin() {
+            document.getElementById('custLoginError').textContent = '';
+            openOverlay('customerLoginOverlay');
+        }
+
+        document.getElementById('customerLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('custLoginEmail').value.trim();
+            const password = document.getElementById('custLoginPassword').value;
+            const cust = customers.find(c => c.email === email && c.password === password);
+            if (!cust) {
+                document.getElementById('custLoginError').textContent = 'Invalid email or password.';
+                return;
+            }
+            document.getElementById('custLoginError').textContent = '';
+            loggedInCustomer = cust;
+            setData('loggedInCustomer', loggedInCustomer);
+            closeOverlay('customerLoginOverlay');
+            showToast('Welcome back, ' + cust.fullName + '!', 'success');
+            openCustomerDashboard();
+        });
+
+        function openCustomerDashboard() {
             if (!loggedInCustomer) {
                 showToast('Please login first.', 'error');
                 openCustomerLogin();
                 return;
             }
-            // Refresh orders for the customer
-            await fetchOrders();
-            document.getElementById('custDashboardGreeting').textContent = 'Welcome back, ' + loggedInCustomer.full_name + '!';
+            document.getElementById('custDashboardGreeting').textContent = 'Welcome back, ' + loggedInCustomer.fullName + '!';
             const sel = document.getElementById('orderService');
             sel.innerHTML = '<option value="">Choose a service...</option>' +
-                allProducts.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+                products.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
             renderCustomerOrders();
             updateCustomerStats();
+            updateChatWidget();
             openOverlay('customerDashboardOverlay');
         }
 
         function updateCustomerStats() {
-            const custOrders = allOrders.filter(o => o.customer_id === loggedInCustomer.id);
+            const custOrders = orders.filter(o => o.customerId === loggedInCustomer.id);
             document.getElementById('custOrderCount').textContent = custOrders.length;
             document.getElementById('custActiveOrders').textContent = custOrders.filter(o => o.status === 'pending' || o.status ===
                 'in-progress').length;
@@ -3100,23 +3255,23 @@
 
         function renderCustomerOrders() {
             const tbody = document.getElementById('custOrdersTableBody');
-            const custOrders = allOrders.filter(o => o.customer_id === loggedInCustomer.id);
-            if (!custOrders.length) {
+            const custOrders = orders.filter(o => o.customerId === loggedInCustomer.id).sort((a, b) => b.createdAt - a.createdAt);
+            if (custOrders.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--gray-500);">No orders placed yet.</td></tr>';
                 return;
             }
             tbody.innerHTML = custOrders.map(o => {
-                const prod = allProducts.find(p => p.id === o.product_id);
+                const prod = products.find(p => p.id === o.productId);
                 return `<tr>
-                        <td>${prod ? prod.name : 'Unknown'}</td>
-                        <td><span class="status-badge ${o.status}">${o.status}</span></td>
-                        <td>${new Date(o.created_at).toLocaleDateString()}</td>
-                        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
-                    </tr>`;
+                    <td>${prod ? prod.name : 'Unknown'}</td>
+                    <td><span class="status-badge ${o.status}">${o.status}</span></td>
+                    <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+                    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.message || '—'}</td>
+                </tr>`;
             }).join('');
         }
 
-        document.getElementById('customerOrderForm').addEventListener('submit', async function(e) {
+        document.getElementById('customerOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             if (!loggedInCustomer) {
                 showToast('Please login first.', 'error');
@@ -3124,86 +3279,434 @@
             }
             const productId = document.getElementById('orderService').value;
             const message = document.getElementById('orderMessage').value.trim();
-            const fb = document.getElementById('orderFeedback');
             if (!productId) {
-                fb.textContent = 'Please select a service.';
-                fb.style.color = '#dc3545';
+                document.getElementById('orderFeedback').textContent = 'Please select a service.';
+                document.getElementById('orderFeedback').style.color = '#dc3545';
                 return;
             }
-            fb.textContent = '';
+            document.getElementById('orderFeedback').textContent = '';
 
-            const btn = document.getElementById('placeOrderBtn');
-            btn.innerHTML = '<span class="spinner"></span> Placing...';
-            btn.disabled = true;
-
-            const order = await createOrder({
+            orders.push({
                 id: uid(),
-                customer_id: loggedInCustomer.id,
-                product_id: productId,
+                customerId: loggedInCustomer.id,
+                productId: productId,
                 status: 'pending',
                 message: message,
-                created_at: new Date(),
-                updated_at: new Date()
+                createdAt: Date.now(),
+                updatedAt: Date.now()
             });
-
-            btn.innerHTML = 'Place Order';
-            btn.disabled = false;
-
-            if (order) {
-                fb.textContent = '✅ Order placed successfully!';
-                fb.style.color = '#28a745';
-                document.getElementById('customerOrderForm').reset();
-                renderCustomerOrders();
-                updateCustomerStats();
-                showToast('Order placed!', 'success');
-                renderAdminDashboard();
-            }
+            saveAll();
+            document.getElementById('orderFeedback').textContent = '✅ Order placed successfully!';
+            document.getElementById('orderFeedback').style.color = '#28a745';
+            document.getElementById('customerOrderForm').reset();
+            renderCustomerOrders();
+            updateCustomerStats();
+            showToast('Order placed!', 'success');
+            renderAdminDashboard();
         });
 
         // ====================================================================
-        // 11. CONTACT FORM
+        // ENHANCED FAQ
         // ====================================================================
+
+        function renderFAQ(filter = '', category = 'all') {
+            const container = document.getElementById('faqList');
+            let items = faqData;
+            if (category !== 'all') items = items.filter(f => f.category === category);
+            if (filter) items = items.filter(f => f.question.toLowerCase().includes(filter.toLowerCase()) || f.answer
+                .toLowerCase().includes(filter.toLowerCase()));
+
+            if (items.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--gray-500);padding:2rem 0;">No FAQ items found.</p>';
+                return;
+            }
+
+            container.innerHTML = items.map(f => {
+                const votes = faqVotes[f.id] || { up: 0, down: 0 };
+                const userVote = localStorage.getItem('faq_vote_' + f.id) || null;
+                return `
+                    <div class="faq-item active" data-id="${f.id}">
+                        <button class="faq-question">${f.question} <span class="arrow">▾</span></button>
+                        <div class="faq-answer">
+                            ${f.answer}
+                            <div class="helpful">
+                                <span>Was this helpful?</span>
+                                <button class="vote-btn" data-id="${f.id}" data-vote="up" ${userVote === 'up' ? 'disabled' : ''}>👍 <span class="count">${votes.up}</span></button>
+                                <button class="vote-btn" data-id="${f.id}" data-vote="down" ${userVote === 'down' ? 'disabled' : ''}>👎 <span class="count">${votes.down}</span></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.addEventListener('click', function() {
+                    const parent = this.closest('.faq-item');
+                    const isActive = parent.classList.contains('active');
+                    document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+                    if (!isActive) parent.classList.add('active');
+                });
+            });
+
+            document.querySelectorAll('.vote-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.dataset.id;
+                    const vote = this.dataset.vote;
+                    const userVote = localStorage.getItem('faq_vote_' + id);
+                    if (userVote) {
+                        showToast('You already voted on this.', 'info');
+                        return;
+                    }
+                    if (!faqVotes[id]) faqVotes[id] = { up: 0, down: 0 };
+                    faqVotes[id][vote] += 1;
+                    localStorage.setItem('faq_vote_' + id, vote);
+                    setData('faqVotes', faqVotes);
+                    renderFAQ(document.getElementById('faqSearch').value, document.querySelector('.faq-categories .active')
+                        .dataset.cat);
+                    showToast('Thank you for your feedback!', 'success');
+                });
+            });
+        }
+
+        function filterFAQ() {
+            const filter = document.getElementById('faqSearch').value;
+            const category = document.querySelector('.faq-categories .active').dataset.cat;
+            renderFAQ(filter, category);
+        }
+
+        document.querySelectorAll('.faq-categories button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.faq-categories button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterFAQ();
+            });
+        });
+
+        // ====================================================================
+        // CHAT SYSTEM
+        // ====================================================================
+
+        function saveChatMessages() { setData('chatMessages', chatMessages); }
+
+        function updateChatWidget() {
+            const widget = document.getElementById('chatWidget');
+            if (loggedInCustomer) {
+                widget.classList.add('show');
+                const unread = chatMessages.filter(m => m.receiver === loggedInCustomer.id && !m.read && m.sender !== loggedInCustomer
+                    .id).length;
+                const badge = document.getElementById('chatBadge');
+                if (unread > 0) {
+                    badge.textContent = unread;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            } else {
+                widget.classList.remove('show');
+            }
+        }
+
+        document.getElementById('chatToggle').addEventListener('click', function() {
+            const panel = document.getElementById('chatPanel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) {
+                renderChatMessages();
+                const unread = chatMessages.filter(m => m.receiver === loggedInCustomer.id && !m.read && m.sender !== loggedInCustomer
+                    .id);
+                unread.forEach(m => { m.read = true; });
+                saveChatMessages();
+                updateChatWidget();
+            }
+        });
+
+        document.getElementById('closeChat').addEventListener('click', function() {
+            document.getElementById('chatPanel').classList.remove('open');
+        });
+
+        document.getElementById('sendChat').addEventListener('click', sendChatMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        function sendChatMessage() {
+            if (!loggedInCustomer) {
+                showToast('Please login to chat.', 'error');
+                return;
+            }
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const msg = {
+                id: uid(),
+                sender: loggedInCustomer.id,
+                senderName: loggedInCustomer.fullName,
+                receiver: 'admin',
+                content: text,
+                timestamp: Date.now(),
+                read: false
+            };
+            chatMessages.push(msg);
+            saveChatMessages();
+            input.value = '';
+            renderChatMessages();
+            if (document.getElementById('tab-chat') && document.getElementById('tab-chat').style.display !== 'none') {
+                renderAdminChat();
+            }
+            showToast('Message sent!', 'success');
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            if (!loggedInCustomer) return;
+            const msgs = chatMessages.filter(m => (m.sender === loggedInCustomer.id && m.receiver === 'admin') ||
+                (m.sender === 'admin' && m.receiver === loggedInCustomer.id));
+            if (msgs.length === 0) {
+                container.innerHTML =
+                    '<div style="text-align:center;color:var(--gray-500);padding:1rem 0;">No messages yet. Start a conversation!</div>';
+                return;
+            }
+            container.innerHTML = msgs.map(m => `
+                <div class="msg ${m.sender === loggedInCustomer.id ? 'sent' : 'received'}">
+                    ${m.content}
+                    <span class="time">${new Date(m.timestamp).toLocaleTimeString()}</span>
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // ====================================================================
+        // ADMIN CHAT
+        // ====================================================================
+
+        function renderAdminChat() {
+            const container = document.getElementById('adminChatContainer');
+            if (!container) return;
+            const customerIds = [...new Set(chatMessages.filter(m => m.sender !== 'admin').map(m => m.sender))];
+            if (customerIds.length === 0) {
+                container.innerHTML =
+                '<p style="text-align:center;color:var(--gray-500);padding:2rem 0;">No customer messages yet.</p>';
+                return;
+            }
+            container.innerHTML = customerIds.map(custId => {
+                const cust = customers.find(c => c.id === custId);
+                const custName = cust ? cust.fullName : 'Unknown Customer';
+                const msgs = chatMessages.filter(m => (m.sender === custId && m.receiver === 'admin') ||
+                    (m.sender === 'admin' && m.receiver === custId));
+                const unread = msgs.filter(m => m.sender === custId && !m.read).length;
+                return `
+                    <div class="chat-conversation" data-customer="${custId}">
+                        <div class="conv-header" onclick="toggleConv(this)">
+                            <span>${custName} <span style="font-weight:400;font-size:0.8rem;color:var(--gray-500);">(${msgs.length} messages)</span></span>
+                            ${unread > 0 ? `<span class="badge-unread">${unread} new</span>` : ''}
+                        </div>
+                        <div class="conv-messages" data-customer="${custId}">
+                            ${msgs.map(m => `
+                                <div class="msg ${m.sender === 'admin' ? 'admin' : 'customer'}">
+                                    ${m.sender === 'admin' ? '👤 Admin: ' : '👤 Customer: '} ${m.content}
+                                    <span class="time">${new Date(m.timestamp).toLocaleString()}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="conv-reply">
+                            <input type="text" placeholder="Reply to ${custName}..." class="adminReplyInput" data-customer="${custId}" />
+                            <button class="btn btn-primary btn-sm" onclick="adminReply('${custId}')">Send</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.chat-conversation').forEach(conv => {
+                const unread = conv.querySelector('.badge-unread');
+                if (unread) {
+                    conv.querySelector('.conv-messages').classList.add('open');
+                }
+            });
+
+            document.querySelectorAll('.adminReplyInput').forEach(inp => {
+                inp.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const custId = this.dataset.customer;
+                        adminReply(custId);
+                    }
+                });
+            });
+        }
+
+        function toggleConv(el) {
+            const msgs = el.parentElement.querySelector('.conv-messages');
+            msgs.classList.toggle('open');
+        }
+
+        function adminReply(customerId) {
+            const input = document.querySelector(`.adminReplyInput[data-customer="${customerId}"]`);
+            const text = input.value.trim();
+            if (!text) return;
+            const msg = {
+                id: uid(),
+                sender: 'admin',
+                senderName: 'Admin',
+                receiver: customerId,
+                content: text,
+                timestamp: Date.now(),
+                read: false
+            };
+            chatMessages.push(msg);
+            saveChatMessages();
+            input.value = '';
+            renderAdminChat();
+            if (loggedInCustomer && loggedInCustomer.id === customerId) {
+                renderChatMessages();
+                updateChatWidget();
+            }
+            showToast('Reply sent!', 'success');
+        }
+
+        // ====================================================================
+        // PUBLIC VIEWS — Slideshow + Products
+        // ====================================================================
+
+        let slideInterval;
+
+        function updatePublicViews() {
+            const servicesGrid = document.getElementById('servicesGrid');
+            servicesGrid.innerHTML = products.map(p => `
+                <div class="service-card">
+                    <div class="icon">${getCategoryIcon(p.category)}</div>
+                    <h3>${p.name}</h3>
+                    <p>${p.description}</p>
+                    ${p.features && p.features.length ? `<ul class="features">${p.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}
+                    ${p.image ? `<img src="${p.image}" class="service-image" alt="${p.name}" />` : ''}
+                    <button class="btn btn-primary btn-sm order-btn" onclick="openCustomerRegister()">Order Now</button>
+                </div>
+            `).join('');
+
+            const sel = document.getElementById('cservice');
+            const currentVal = sel.value;
+            sel.innerHTML = '<option value="">Select a service</option>' +
+                products.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+            sel.value = currentVal;
+
+            renderSlideshow();
+        }
+
+        function getCategoryIcon(cat) {
+            const map = { education: '🏫', business: '💼', healthcare: '🏥', custom: '⚙️', support: '🔧', other: '📦' };
+            return map[cat] || '📦';
+        }
+
+        // ----- Slideshow -----
+        let currentSlideIndex = 0;
+
+        function renderSlideshow() {
+            const wrapper = document.getElementById('slidesWrapper');
+            const dotsContainer = document.getElementById('slideDots');
+            const activeSlides = slides.filter(s => s.active).sort((a, b) => (a.order || 0) - (b.order || 0));
+
+            if (activeSlides.length === 0) {
+                wrapper.innerHTML = `<div class="slide-item active" style="background:var(--dark);display:flex;align-items:center;justify-content:center;">
+                    <div class="slide-content"><h3>Welcome to Dynamic Tech</h3><p>Innovative software solutions for your organization.</p></div>
+                </div>`;
+                dotsContainer.innerHTML = '';
+                return;
+            }
+
+            wrapper.innerHTML = activeSlides.map((s, i) => `
+                <div class="slide-item ${i === 0 ? 'active' : ''}" style="background-image: url('${s.image || ''}'); background-size: cover; background-position: center;">
+                    <div class="slide-content">
+                        <h3>${s.title}</h3>
+                        ${s.subtitle ? `<p>${s.subtitle}</p>` : ''}
+                        ${s.link ? `<a href="${s.link}" class="btn btn-primary btn-sm" style="margin-top:0.5rem;">Learn More</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            dotsContainer.innerHTML = activeSlides.map((_, i) =>
+                `<button class="dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Slide ${i+1}"></button>`
+            ).join('');
+
+            dotsContainer.querySelectorAll('.dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    goToSlide(parseInt(this.dataset.index));
+                });
+            });
+
+            document.getElementById('slidePrev').onclick = () => changeSlide(-1);
+            document.getElementById('slideNext').onclick = () => changeSlide(1);
+
+            currentSlideIndex = 0;
+            startSlideshow();
+        }
+
+        function goToSlide(index) {
+            const slidesEl = document.querySelectorAll('.slide-item');
+            const dots = document.querySelectorAll('.dot');
+            if (slidesEl.length === 0) return;
+            if (index < 0) index = slidesEl.length - 1;
+            if (index >= slidesEl.length) index = 0;
+            slidesEl.forEach(el => el.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slidesEl[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlideIndex = index;
+        }
+
+        function changeSlide(direction) {
+            const slidesEl = document.querySelectorAll('.slide-item');
+            if (slidesEl.length === 0) return;
+            const newIndex = currentSlideIndex + direction;
+            goToSlide(newIndex);
+            resetSlideshowTimer();
+        }
+
+        function startSlideshow() {
+            stopSlideshow();
+            slideInterval = setInterval(() => { changeSlide(1); }, 5000);
+        }
+
+        function stopSlideshow() {
+            if (slideInterval) { clearInterval(slideInterval);
+                slideInterval = null; }
+        }
+
+        function resetSlideshowTimer() {
+            stopSlideshow();
+            startSlideshow();
+        }
+
+        // ====================================================================
+        // CONTACT FORM
+        // ====================================================================
+
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('cname').value.trim();
             const email = document.getElementById('cemail').value.trim();
             const message = document.getElementById('cmessage').value.trim();
-            const fb = document.getElementById('formFeedback');
             if (!name || !email || !message) {
-                fb.textContent = 'Please fill in all required fields.';
-                fb.style.color = '#dc3545';
+                document.getElementById('formFeedback').textContent = 'Please fill in all required fields.';
+                document.getElementById('formFeedback').style.color = '#dc3545';
                 return;
             }
-            fb.textContent = '✅ Thank you! We\'ll get back to you shortly.';
-            fb.style.color = '#28a745';
-            setTimeout(() => { fb.textContent = ''; }, 5000);
+            document.getElementById('formFeedback').textContent = '✅ Thank you! We\'ll get back to you shortly.';
+            document.getElementById('formFeedback').style.color = '#28a745';
+            setTimeout(() => { document.getElementById('formFeedback').textContent = ''; }, 5000);
             showToast('Message sent!', 'success');
-            document.getElementById('contactForm').reset();
         });
 
         // ====================================================================
-        // 12. NAV, FAQ, SCROLL TOP
+        // NAV, FAQ, SCROLL TOP
         // ====================================================================
+
         const hamburger = document.getElementById('hamburger');
-        if (hamburger) {
-            hamburger.addEventListener('click', function() {
-                this.classList.toggle('active');
-                document.getElementById('navLinks').classList.toggle('open');
-            });
-        }
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('navLinks').classList.toggle('open');
+        });
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 document.getElementById('navLinks').classList.remove('open');
-                if (hamburger) hamburger.classList.remove('active');
-            });
-        });
-
-        document.querySelectorAll('.faq-question').forEach(q => {
-            q.addEventListener('click', function() {
-                const parent = this.closest('.faq-item');
-                const isActive = parent.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
-                if (!isActive) parent.classList.add('active');
+                hamburger.classList.remove('active');
             });
         });
 
@@ -3225,115 +3728,50 @@
         scrollBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
         // ====================================================================
-        // 13. ADMIN LOGIN
+        // INIT
         // ====================================================================
-        function openAdminLogin() {
-            document.getElementById('adminLoginError').textContent = '';
-            document.getElementById('adminLoginError').classList.remove('show');
-            openOverlay('adminLoginOverlay');
-        }
 
-        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const u = document.getElementById('adminUsername').value.trim();
-            const p = document.getElementById('adminPassword').value.trim();
-            if (u === 'admin' && p === 'admin123') {
-                closeOverlay('adminLoginOverlay');
-                openAdminDashboard();
-                showToast('Welcome Admin!', 'success');
-            } else {
-                const err = document.getElementById('adminLoginError');
-                err.textContent = 'Invalid username or password. Use admin / admin123';
-                err.classList.add('show');
-            }
-        });
+        // Initialize Supabase with hardcoded credentials
+        initializeSupabase();
 
-        // ====================================================================
-        // 14. IMAGE UPLOAD SETUP
-        // ====================================================================
-        setupImageUpload('productImageInput', 'productImagePreview', 'productUploadPlaceholder', 'productRemoveImage',
-            'productImageArea');
-        setupImageUpload('slideImageInput', 'slideImagePreview', 'slideUploadPlaceholder', 'slideRemoveImage',
-            'slideImageArea');
+        // Render everything
+        renderFAQ();
+        updatePublicViews();
+        updateChatWidget();
+        saveAll();
 
-        // ====================================================================
-        // 15. INIT
-        // ====================================================================
-        async function init() {
-            try {
-                initSupabase();
+        console.log('🚀 Dynamic Tech CRM · Clean Admin Login (Supabase)');
+        console.log('📦 ' + products.length + ' products, ' + slides.length + ' slides, ' + customers.length + ' customers, ' +
+            orders.length + ' orders');
+        console.log('🔑 Supabase credentials are hardcoded — replace with your own.');
 
-                // Test connection
-                const { error } = await supabase.from('products').select('id').limit(1);
-                if (error) {
-                    console.warn('⚠️ Supabase connection issue:', error);
-                    showToast(
-                        '⚠️ Supabase not configured. Please check your URL and key.',
-                        'error');
-                    allProducts = [];
-                    allSlides = [];
-                    allCustomers = [];
-                    allOrders = [];
-                } else {
-                    await fetchAllData();
-                }
-
-                // Check session
-                const saved = sessionStorage.getItem('dt_loggedInCustomer');
-                if (saved) {
-                    try {
-                        const parsed = JSON.parse(saved);
-                        const fresh = await findCustomerByEmail(parsed.email);
-                        if (fresh) loggedInCustomer = fresh;
-                        else loggedInCustomer = null;
-                    } catch (e) { loggedInCustomer = null; }
-                }
-
-                updatePublicViews();
-                renderAdminDashboard();
-
-                console.log('🚀 Dynamic Tech CRM · Supabase Backend');
-                console.log('👤 Admin: admin / admin123');
-                console.log('📦 ' + allProducts.length + ' products, ' + allSlides.length + ' slides, ' + allCustomers
-                    .length + ' customers, ' + allOrders.length + ' orders');
-            } catch (e) {
-                console.error('Init error:', e);
-                showToast('Failed to initialize. Check console.', 'error');
-            }
-        }
-
-        // ====================================================================
-        // 16. EXPOSE GLOBALS
-        // ====================================================================
+        // Expose globals
         window.openAdminLogin = openAdminLogin;
+        window.adminLogout = adminLogout;
+        window.openAdminDashboard = openAdminDashboard;
         window.openCustomerRegister = openCustomerRegister;
         window.openCustomerLogin = openCustomerLogin;
         window.openCustomerDashboard = openCustomerDashboard;
         window.openProductModal = openProductModal;
         window.editProduct = editProduct;
-        window.deleteProductHandler = deleteProductHandler;
+        window.deleteProduct = deleteProduct;
         window.openSlideModal = openSlideModal;
         window.editSlide = editSlide;
-        window.deleteSlideHandler = deleteSlideHandler;
-        window.deleteOrderHandler = deleteOrderHandler;
-        window.updateOrderStatusHandler = updateOrderStatusHandler;
+        window.deleteSlide = deleteSlide;
+        window.deleteOrder = deleteOrder;
+        window.updateOrderStatus = updateOrderStatus;
         window.filterProducts = filterProducts;
         window.filterSlides = filterSlides;
         window.filterCustomers = filterCustomers;
         window.filterOrders = filterOrders;
-        window.adminLogout = adminLogout;
         window.closeOverlay = closeOverlay;
         window.openOverlay = openOverlay;
         window.showToast = showToast;
         window.closeProductModal = closeProductModal;
         window.closeSlideModal = closeSlideModal;
-
-        // ====================================================================
-        // 17. START
-        // ====================================================================
-        document.addEventListener('DOMContentLoaded', init);
+        window.adminReply = adminReply;
+        window.toggleConv = toggleConv;
+        window.filterFAQ = filterFAQ;
     </script>
-
-    
 </body>
-    </html>
+                        </html>
